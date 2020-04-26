@@ -1,0 +1,2 @@
+Interpolates dataframe of NTL-LTER nutrient observations to weekly timestep at 1 m depth intervals.
+Uses the premise that nutrient profiles should match temperature profiles.
