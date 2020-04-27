@@ -20,6 +20,10 @@ knitr::opts_chunk$set(
 library(NTLlakeloads)
 ```
 
+```{r, include=FALSE}
+devtools::load_all(".")
+```
+
 ```{r get LTER data}
 # Get LTER data. 
 LTERtemp = loadLTERtemp() # Download all LTER data from EDI

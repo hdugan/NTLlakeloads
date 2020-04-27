@@ -9,7 +9,8 @@ weeklyInterpolate(
   var,
   maxdepth,
   constrainMethod = "zero",
-  setThreshold = 0.1
+  setThreshold = 0.1,
+  printFigs = FALSE
 )
 }
 \arguments{
@@ -23,6 +24,8 @@ weeklyInterpolate(
 Options are 'zero' (cannot go below zero, default) and 'range' (can not go beyond range of observed data)}
 
 \item{setThreshold}{Threshold of RMSE for interpolation}
+
+\item{printFigs}{Output individual profiles of interpolation? Options TRUE or FALSE (default)}
 }
 \description{
 Interpolates dataframe of observations to weekly timestep at 1 m depth intervals.
