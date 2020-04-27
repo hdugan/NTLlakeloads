@@ -5,6 +5,7 @@
 #' @param df.load dataframe of weekly load estimates
 #' @param lakeAbr Lake identification, string
 #' @import dplyr
+#' @importFrom tidyr pivot_longer
 #' @importFrom patchwork plot_annotation
 #' @export
 decomposeTS <- function(df.load, lakeAbr) {
