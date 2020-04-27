@@ -3,6 +3,7 @@
 #' Downloads Chemical Limnology of Primary Study Lakes: Nutrients, pH and Carbon 1981 - current
 #'
 #' @importFrom readr read_csv
+#' @importFrom utils download.file
 #' @export
 loadLTERnutrients <- function() {
 

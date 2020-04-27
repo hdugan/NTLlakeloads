@@ -4,10 +4,10 @@
 \alias{decomposeTS}
 \title{Decompose timeseries from weekly load data}
 \usage{
-decomposeTS(df.load)
+decomposeTS(df.load, lakeAbr)
 }
 \arguments{
-\item{df}{dataframe of weekly load estimates}
+\item{df.load}{dataframe of weekly load estimates}
 
 \item{lakeAbr}{Lake identification, string}
 }

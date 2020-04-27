@@ -2,12 +2,12 @@
 #'
 #' Input load data
 #'
-#' @param df dataframe of weekly load estimates
+#' @param df.load dataframe of weekly load estimates
 #' @param lakeAbr Lake identification, string
 #' @import dplyr
 #' @importFrom patchwork plot_annotation
 #' @export
-decomposeTS <- function(df.load) {
+decomposeTS <- function(df.load, lakeAbr) {
 
   ## weights for moving avg
   fltr <- c(1/2, rep(1, times = 51), 1/2)/52
