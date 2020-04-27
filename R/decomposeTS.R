@@ -4,11 +4,12 @@
 #'
 #' @param df.load dataframe of weekly load estimates
 #' @param lakeAbr Lake identification, string
+#' @param var Variable of interest. Use availableVars() to see available variables.
 #' @import dplyr
 #' @importFrom tidyr pivot_longer
 #' @importFrom patchwork plot_annotation
 #' @export
-decomposeTS <- function(df.load, lakeAbr) {
+decomposeTS <- function(df.load, lakeAbr, var) {
 
   ## weights for moving avg
   fltr <- c(1/2, rep(1, times = 51), 1/2)/52

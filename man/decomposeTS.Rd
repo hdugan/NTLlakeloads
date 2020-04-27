@@ -4,12 +4,14 @@
 \alias{decomposeTS}
 \title{Decompose timeseries from weekly load data}
 \usage{
-decomposeTS(df.load, lakeAbr)
+decomposeTS(df.load, lakeAbr, var)
 }
 \arguments{
 \item{df.load}{dataframe of weekly load estimates}
 
 \item{lakeAbr}{Lake identification, string}
+
+\item{var}{Variable of interest. Use availableVars() to see available variables.}
 }
 \description{
 Input load data
