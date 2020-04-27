@@ -9,7 +9,7 @@
 #' @param constrainMethod Options to constrain interpolation.
 #' Options are 'zero' (cannot go below zero, default) and 'range' (can not go beyond range of observed data)
 #' @param setThreshold Threshold of RMSE for interpolation
-#'
+#' @param printFigs Output individual profiles of interpolation? Options TRUE or FALSE (default)
 #' @import dplyr
 #' @import akima
 #' @import mgcv
@@ -18,15 +18,15 @@
 #' @importFrom future plan multiprocess
 #' @importFrom reshape2 melt
 #' @importFrom lubridate decimal_date month
+#' @importFrom ggforce facet_wrap_paginate
 #' @export
-weeklyInterpolate <- function(lakeAbr, var, maxdepth, constrainMethod = 'zero', setThreshold = 0.1) {
+weeklyInterpolate <- function(lakeAbr, var, maxdepth, constrainMethod = 'zero', setThreshold = 0.1, printFigs = FALSE) {
   # Read in data
   temp = LTERtemp %>%
     dplyr::filter(!is.na(wtemp)) %>%
     dplyr::filter(lakeid == lakeAbr) %>%
     dplyr::group_by(sampledate,depth) %>%
     dplyr::summarise(wtemp = mean(wtemp,na.rm=TRUE)) # Temp and Oxygen
-
 
   if (var %in% names(LTERions)) {
     dfin = LTERions
@@ -60,21 +60,39 @@ weeklyInterpolate <- function(lakeAbr, var, maxdepth, constrainMethod = 'zero', 
   plan(multiprocess)
   f <- future_lapply(X = usedates$sampledate, FUN = interpData, observationDF = obs,
                       maxdepth = maxdepth, rmse.threshold = setThreshold, constrainMethod = constrainMethod)
+
   # # lapply interpolation function
   # f = lapply(X = usedates$sampledate,FUN = interpData, observationDF = obs,
   #            maxdepth = maxdepth, rmse.threshold = setThreshold, constrainMethod = constrainMethod)
 
-
   # Bind list into dataframe using plyr
   df <- rbind.fill(f)
 
-  df2 = df %>% dplyr::filter(!is.na(newp) & !is.na(sampledate))
+  # Paginate interpolation figures
+  if (printFigs == TRUE) {
+    for (i in 1:ceiling(length(unique(df$sampledate))/36)) {
+      p = ggplot(df) + geom_point(aes(x = meanVar, y = depth, fill = withinThreshold), size = 3, shape = 21) +
+        scale_fill_manual(values = c('red3','gold')) +
+        geom_point(aes(x = newp, y = depth), size = 0.8) +
+        scale_y_reverse() +
+        xlab(var) + ylab('depth') +
+        # xlim(-0.1 , max(outp$newp,na.rm = T)) +
+        # labs(title = paste0(date,', rmse: ',rmse)) +
+        theme_bw() +
+        theme(title = element_text(size = 8),
+              text = element_text(size = 8)) +
+        facet_wrap_paginate(vars(sampledate), nrow = 6, ncol = 6, page = i)
+      print(p)
+    }
+  }
+
+  # Remove profiles that did not cross the threshold
+  df2 = df %>% dplyr::filter(!is.na(newp) & !is.na(sampledate) & withinThreshold == TRUE)
 
   full_y = seq(from = range(df2$depth)[1],to = range(df2$depth)[2], by = 1)
   full_x = seq.Date(from = range(df2$sampledate,na.rm = T)[1],to = range(df2$sampledate,na.rm = T)[2], by = 'week')
   # a = data.frame(x = full_x, y = full_y)
   a = expand.grid(sampledate = full_x, depth = full_y)
-
 
   interped = akima::interp(x = df2$sampledate, y = df2$depth, z = df2$newp, full_x, full_y,
                            duplicate = 'mean',linear=T, extrap = F)
@@ -136,29 +154,14 @@ interpData <- function(observationDF, date, maxdepth, rmse.threshold = setThresh
       mutate(sampledate = date) %>%
       left_join(a, by = c('depth' = 'depth', 'sampledate' = 'sampledate'))
   }
+  outp$withinThreshold = TRUE
 
   # New RMSE
   rmse = round(RMSE(outp$meanVar,outp$newp),2) #calculate RMSE
-
-
-  # plot(a$meanVar,a$depth,ylim = rev(range(yout$x)), xlim = c(-0.1,max(outp$newp,na.rm = T)),
-  #      main = paste0(date,', rmse: ',rmse), cex = 1.5)
-  # points(outp$newp,outp$depth,pch = 16)
-
-  p = ggplot(a) + geom_point(aes(x = meanVar, y = depth), size = 3, shape = 21, fill = 'gold') +
-    geom_point(data = outp, aes(x = newp, y = depth)) +
-    scale_y_reverse() +
-    xlim(-0.1 , max(outp$newp,na.rm = T)) +
-    labs(title = paste0(date,', rmse: ',rmse)) +
-    theme_bw() +
-    theme(axis.title = element_blank(),title = element_text(size = 8),
-          text = element_text(size = 8))
-
-  print(p)
-
   if (rmse > rmse.threshold){
     print(paste0('RMSE too high: ',date))
-    return(NULL)
+    outp$withinThreshold = FALSE
   }
+
   return(outp)
 }
