@@ -4,10 +4,12 @@
 \alias{plotTimeseries}
 \title{Plot interpolate heatmap of entire timeseries}
 \usage{
-plotTimeseries(df, saveFig = FALSE)
+plotTimeseries(df.interpolated, var, saveFig = FALSE)
 }
 \arguments{
-\item{df}{dataframe of weekly interpolated data. Output of weeklyInterpolate()}
+\item{df.interpolated}{dataframe of weekly interpolated data. Output of weeklyInterpolate()}
+
+\item{var}{Variable of interest. Use availableVars() to see available variables.}
 }
 \description{
 Plot interpolate heatmap of entire timeseries

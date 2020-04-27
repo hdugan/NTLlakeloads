@@ -1,14 +1,15 @@
 #' Plot interpolate heatmap of entire timeseries
 #'
 #'
-#' @param df dataframe of weekly interpolated data. Output of weeklyInterpolate()
+#' @param df.interpolated dataframe of weekly interpolated data. Output of weeklyInterpolate()
+#' @param var Variable of interest. Use availableVars() to see available variables.
 #' @import ggplot2
 #' @export
-plotTimeseries <- function(df, saveFig = FALSE) {
+plotTimeseries <- function(df.interpolated, var, saveFig = FALSE) {
 
-  binsize = signif(max(df$var,na.rm = T)/20,1)
+  binsize = signif(max(df.interpolated$var,na.rm = T)/20,1)
 
-  pY = ggplot(df, aes(x = date, y = depth, z = var)) +
+  pY = ggplot(df.interpolated, aes(x = date, y = depth, z = var)) +
     geom_contour_filled(aes(fill = stat(level)), alpha = 0.9, binwidth = binsize) +
     scale_fill_viridis_d(name = var) +
     guides(fill = guide_colorsteps(barheight = unit(6, "cm"))) +
@@ -26,16 +27,17 @@ plotTimeseries <- function(df, saveFig = FALSE) {
 
 #' Plot interpolate heatmap of single year
 #'
-#' @param df dataframe of weekly interpolated data. Output of weeklyInterpolate()
+#' @param df.interpolated dataframe of weekly interpolated data. Output of weeklyInterpolate()
+#' @param var Variable of interest. Use availableVars() to see available variables.
 #' @param observations dataframe of observed data. Output of weeklyInterpolate()
 #' @param chooseYear year of interest
 #' @import ggplot2
 #' @export
-plotTimeseries.year <- function(df, observations, chooseYear, saveFig = FALSE) {
+plotTimeseries.year <- function(df.interpolated, observations, var, chooseYear, saveFig = FALSE) {
 
-  binsize = signif(max(df$var,na.rm = T)/20,1)
+  binsize = signif(max(df.interpolated$var,na.rm = T)/20,1)
 
-  pY = ggplot(df, aes(x = date, y = depth, z = var)) +
+  pY = ggplot(df.interpolated, aes(x = date, y = depth, z = var)) +
     geom_contour_filled(aes(fill = stat(level)), alpha = 0.9, binwidth = binsize) +
     scale_fill_viridis_d(name = var) +
     guides(fill = guide_colorsteps(barheight = unit(6, "cm"))) +

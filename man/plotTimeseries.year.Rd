@@ -4,12 +4,20 @@
 \alias{plotTimeseries.year}
 \title{Plot interpolate heatmap of single year}
 \usage{
-plotTimeseries.year(df, observations, chooseYear, saveFig = FALSE)
+plotTimeseries.year(
+  df.interpolated,
+  observations,
+  var,
+  chooseYear,
+  saveFig = FALSE
+)
 }
 \arguments{
-\item{df}{dataframe of weekly interpolated data. Output of weeklyInterpolate()}
+\item{df.interpolated}{dataframe of weekly interpolated data. Output of weeklyInterpolate()}
 
 \item{observations}{dataframe of observed data. Output of weeklyInterpolate()}
+
+\item{var}{Variable of interest. Use availableVars() to see available variables.}
 
 \item{chooseYear}{year of interest}
 }
