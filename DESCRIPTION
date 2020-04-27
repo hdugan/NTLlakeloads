@@ -10,6 +10,8 @@ License: What license is it under?
 Imports:
     akima,
     dplyr,
+    future,
+    future.apply,
     ggplot2,
     lubridate,
     mgcv,
