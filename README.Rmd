@@ -12,17 +12,62 @@ knitr::opts_chunk$set(
 )
 ```
 
-## R Markdown
+## Why?
+Trying to make a better way of interpolating nutrient data in the lakes. Both for load calculations and for data visualization. 
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+We often lineraly interpolate water quality observations between observation depths. This is typically fine if a lake is well mixed, but if it's stratfied it introduces a lot of error around the thermocline. Here, I provide functions to interpolate water quality observations leveraging information on lake stratification from temperature data. Often there is more temperature data than water quality data, which results in better interpolation. 
 
 ## Installation
-
 You can install NTLlakeloads from github using devtools:
 
-```{r gh-installation, eval = FALSE}
-# install.packages("devtools")
+```{r gh-installation, eval = F}
+install.packages("devtools")
 devtools::install_github("hdugan/NTLlakeloads")
+library(NTLlakeloads)
+```
+
+```{r library, include = F}
+library(NTLlakeloads)
+```
+
+## Get LTER data
+```{r getLTERdata, eval = T, warning = F, message = F}
+# Use these objects names, hardcoded at the moment
+LTERtemp = loadLTERtemp() # Download NTL LTER data from EDI
+LTERnutrients = loadLTERnutrients() # Download NTL LTER data from EDI
+LTERions = loadLTERions() # Download NTL LTER data from EDI
+```
+
+## Variables available for plotting
+```{r, eval = FALSE}
+# Available variables
+availableVars()
+```
+
+## Interpolate weekly total phosphorus data for Lake Mendota
+```{r, eval = T, warning = F, message = F, results = 'hide'}
+# printFigs = TRUE to output series of interpolated profiles (but slower)
+df.ME = weeklyInterpolate(lakeAbr = 'ME', var = 'totpuf_sloh', maxdepth = 24, 
+                          constrainMethod = 'zero', setThreshold = 0.1, printFigs = F)
+```
+
+## Plotting entire timeseries 
+```{r, eval = T, warning = F, message = F, fig.width = 7}
+plotTimeseries(df.ME$weeklyInterpolated, var = 'totpuf_sloh')
+```
+
+## Plot specific year with observed data
+```{r, eval = T, warning = F, message = F, fig.width = 7 }
+plotTimeseries.year(df.ME$weeklyInterpolated, df.ME$observations,  var = 'totpuf_sloh', chooseYear = 2008)
+```
+
+## Calculate load at annual or weekly timescales
+```{r, eval = T, results = 'hide', warning = F, message = F}
+df.load = calcLoad(df.ME$weeklyInterpolated,lakeAbr = 'ME', time.res = 'weekly')
+df.load.annual = calcLoad(df.ME$weeklyInterpolated,lakeAbr = 'ME', time.res = 'annual')
+```
+
+## Decompose timeseries to analyse trends, seasonality
+```{r, eval = T, warning = F, message = F}
+decomposeTS(df.load, lakeAbr = 'ME', var = 'totpuf_sloh')
 ```
