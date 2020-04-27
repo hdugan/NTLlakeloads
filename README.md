@@ -54,7 +54,7 @@ df.ME = weeklyInterpolate(lakeAbr = 'ME', var = 'totpuf_sloh', maxdepth = 24,
 plotTimeseries(df.ME$weeklyInterpolated, var = 'totpuf_sloh')
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
+![](man/figures/README-unnamed-chunk-4-1.png)<!-- -->
 
 ## Plot specific year with observed data
 
@@ -62,7 +62,7 @@ plotTimeseries(df.ME$weeklyInterpolated, var = 'totpuf_sloh')
 plotTimeseries.year(df.ME$weeklyInterpolated, df.ME$observations,  var = 'totpuf_sloh', chooseYear = 2008)
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-5-1.png)<!-- -->
+![](man/figures/README-unnamed-chunk-5-1.png)<!-- -->
 
 ## Calculate load at annual or weekly timescales
 
@@ -77,7 +77,7 @@ df.load.annual = calcLoad(df.ME$weeklyInterpolated,lakeAbr = 'ME', time.res = 'a
 decomposeTS(df.load, lakeAbr = 'ME', var = 'totpuf_sloh')
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-7-1.png)<!-- -->
+![](man/figures/README-unnamed-chunk-7-1.png)<!-- -->
 
     #> # A tibble: 4,904 x 3
     #>    date       decompose value
