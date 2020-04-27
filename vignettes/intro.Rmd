@@ -34,13 +34,13 @@ LTERions = loadLTERions() # Download all LTER data from EDI
 availableVars()
 ```
 
-```{r InterpolateWeekly}
+```{r InterpolateWeekly, warning=FALSE, fig.width = 7, fig.height = 7}
 # Interpolate weekly (print output figures)
 df.ME = weeklyInterpolate(lakeAbr = 'ME', var = 'totpuf_sloh', maxdepth = 24, 
                           constrainMethod = 'zero', setThreshold = 0.1, printFigs = TRUE)
 ```
 
-```{r plot, fig.width = 7, fig.height = 5}
+```{r plot, warning = F, fig.width = 7, fig.height = 5}
 # Plotting timeseries
 plotTimeseries(df.ME$weeklyInterpolated, var = 'totpuf_sloh')
 
@@ -48,13 +48,13 @@ plotTimeseries(df.ME$weeklyInterpolated, var = 'totpuf_sloh')
 plotTimeseries.year(df.ME$weeklyInterpolated, df.ME$observations,  var = 'totpuf_sloh', chooseYear = 2018)
 ```
 
-```{r load}
+```{r load, warning = F}
 # Calculate load at either weekly or annual timescale
 df.load = calcLoad(df.ME$weeklyInterpolated,lakeAbr = 'ME', time.res = 'weekly')
 df.load.annual = calcLoad(df.ME$weeklyInterpolated,lakeAbr = 'ME', time.res = 'annual')
 ```
 
-```{r decompse, fig.width = 7, fig.height = 6}
+```{r decompse, warning = F, fig.width = 7, fig.height = 6}
 # Decompose timeseries load
 decomposeTS(df.load, lakeAbr = 'ME', var = 'totpuf_sloh')
 ```
