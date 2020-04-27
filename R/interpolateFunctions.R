@@ -4,7 +4,7 @@
 #' Uses the premise that nutrient profiles should match temperature profiles
 #'
 #' @param lakeAbr Lake identification, string
-#' @param var Variable of interest
+#' @param var Variable of interest. Use availableVars() to see available variables.
 #' @param maxdepth Maximum depth of lake
 #' @param constrainMethod Options to constrain interpolation.
 #' Options are 'zero' (cannot go below zero, default) and 'range' (can not go beyond range of observed data)

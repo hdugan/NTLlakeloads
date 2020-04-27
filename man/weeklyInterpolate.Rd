@@ -15,7 +15,7 @@ weeklyInterpolate(
 \arguments{
 \item{lakeAbr}{Lake identification, string}
 
-\item{var}{Variable of interest}
+\item{var}{Variable of interest. Use availableVars() to see available variables.}
 
 \item{maxdepth}{Maximum depth of lake}
 

@@ -1,8 +1,7 @@
-
-
 #### Source LTER data ####
 # source('R/loadLTERdata.R')
 # source('R/helperFunctions.R')
+
 LTERtemp = loadLTERtemp() # Download all LTER data from EDI
 LTERnutrients = loadLTERnutrients() # Download all LTER data from EDI
 LTERions = loadLTERions() # Download all LTER data from EDI

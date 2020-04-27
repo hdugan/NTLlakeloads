@@ -1,3 +1,8 @@
+#' Load LTER nutrient data from web
+#'
+#' Downloads Chemical Limnology of Primary Study Lakes: Nutrients, pH and Carbon 1981 - current
+#'
+#' @importFrom readr read_csv
 
 loadLTERnutrients <- function() {
 
@@ -75,6 +80,12 @@ loadLTERnutrients <- function() {
     "flagdrsif_sloh"))
 }
 
+#' Load LTER ion data from web
+#'
+#' Downloads Chemical Limnology of Primary Study Lakes: Major Ions 1981 - current
+#'
+#' @importFrom readr read_csv
+
 loadLTERions <- function() {
   ############ Load libraries ####################################################
   library(readr)
@@ -116,6 +127,12 @@ loadLTERions <- function() {
     "flagcond"))
 }
 
+#' Load LTER phyical limnology data from web
+#'
+#' Downloads Physical Limnology of Primary Study Lakes 1981 - current
+#'
+#' @importFrom readr read_csv
+
 loadLTERtemp <- function() {
   ############ Load libraries ####################################################
   library(readr)
@@ -152,3 +169,13 @@ loadLTERtemp <- function() {
     "flagfrlight"))
 }
 
+#' List of available variables from NTL datasets
+availableVars <- function() {
+
+  aVars = c("ph", "phair", "alk", "dic", "tic", "doc", "toc", "no3no2", "no2", "nh4", "totnf",
+  "totnuf", "totpf", "totpuf", "drsif", "brsif", "brsiuf", "tpm", "totnuf_sloh", "no3no2_sloh",
+  "nh4_sloh", "kjdl_n_sloh", "totpuf_sloh", "drp_sloh", "drsif_sloh",
+  "cl", "so4", "ca", "mg", "na", "k", "fe", "mn", "cond","o2", "o2sat")
+
+  return(aVars)
+}
