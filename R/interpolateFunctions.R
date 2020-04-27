@@ -15,7 +15,7 @@
 #' @import mgcv
 #' @importFrom  plyr rbind.fill
 #' @importFrom future.apply future_lapply
-#' @importFrom future plan
+#' @importFrom future plan multiprocess
 #' @importFrom reshape2 melt
 #' @importFrom lubridate decimal_date month
 #' @export
