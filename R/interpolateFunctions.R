@@ -16,7 +16,7 @@
 #' @importFrom reshape2 melt
 #' @importFrom lubridate decimal_date month
 #' @import akima
-
+#' @export
 weeklyInterpolate <- function(lakeAbr, var, maxdepth, constrainMethod = 'zero', setThreshold = 0.1) {
   # Read in data
   temp = LTERtemp %>%

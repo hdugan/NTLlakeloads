@@ -3,7 +3,7 @@
 #' Downloads Chemical Limnology of Primary Study Lakes: Nutrients, pH and Carbon 1981 - current
 #'
 #' @importFrom readr read_csv
-
+#' @export
 loadLTERnutrients <- function() {
 
   ############ Load libraries ####################################################
@@ -85,7 +85,7 @@ loadLTERnutrients <- function() {
 #' Downloads Chemical Limnology of Primary Study Lakes: Major Ions 1981 - current
 #'
 #' @importFrom readr read_csv
-
+#' @export
 loadLTERions <- function() {
   ############ Load libraries ####################################################
   library(readr)
@@ -132,7 +132,7 @@ loadLTERions <- function() {
 #' Downloads Physical Limnology of Primary Study Lakes 1981 - current
 #'
 #' @importFrom readr read_csv
-
+#' @export
 loadLTERtemp <- function() {
   ############ Load libraries ####################################################
   library(readr)
@@ -170,6 +170,7 @@ loadLTERtemp <- function() {
 }
 
 #' List of available variables from NTL datasets
+#' @export
 availableVars <- function() {
 
   aVars = c("ph", "phair", "alk", "dic", "tic", "doc", "toc", "no3no2", "no2", "nh4", "totnf",

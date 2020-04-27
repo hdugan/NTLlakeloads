@@ -3,6 +3,7 @@
 #'
 #' @param df dataframe of weekly interpolated data. Output of weeklyInterpolate()
 #' @import ggplot2
+#' @export
 plotTimeseries <- function(df, saveFig = FALSE) {
 
   binsize = signif(max(df$var,na.rm = T)/20,1)
@@ -29,6 +30,7 @@ plotTimeseries <- function(df, saveFig = FALSE) {
 #' @param observations dataframe of observed data. Output of weeklyInterpolate()
 #' @param chooseYear year of interest
 #' @import ggplot2
+#' @export
 plotTimeseries.year <- function(df, observations, chooseYear, saveFig = FALSE) {
 
   binsize = signif(max(df$var,na.rm = T)/20,1)

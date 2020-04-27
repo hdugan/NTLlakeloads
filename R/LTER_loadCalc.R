@@ -6,7 +6,7 @@
 #' @param lakeAbr Lake identification, string
 #' @param time.res Time resolution. Options are 'weekly' (default) or 'annual'
 #' @import dplyr
-
+#' @export
 calcLoad <- function(df, lakeAbr, time.res = 'weekly') {
 
   # Get lake bathymetry

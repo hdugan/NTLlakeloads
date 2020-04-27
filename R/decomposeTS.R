@@ -6,7 +6,7 @@
 #' @param lakeAbr Lake identification, string
 #' @import dplyr
 #' @importFrom patchwork plot_annotation
-
+#' @export
 decomposeTS <- function(df.load) {
 
   ## weights for moving avg
