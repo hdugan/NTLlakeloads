@@ -2,8 +2,11 @@
 
 import(akima)
 import(dplyr)
-import(lubridate)
+import(ggplot2)
 import(mgcv)
+importFrom(lubridate,decimal_date)
+importFrom(lubridate,month)
+importFrom(patchwork,plot_annotation)
 importFrom(plyr,rbind.fill)
 importFrom(readr,read_csv)
 importFrom(reshape2,melt)

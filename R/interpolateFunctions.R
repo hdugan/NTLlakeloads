@@ -14,7 +14,7 @@
 #' @importFrom  plyr rbind.fill
 #' @import mgcv
 #' @importFrom reshape2 melt
-#' @import lubridate
+#' @importFrom lubridate decimal_date month
 #' @import akima
 
 weeklyInterpolate <- function(lakeAbr, var, maxdepth, constrainMethod = 'zero', setThreshold = 0.1) {

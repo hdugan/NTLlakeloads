@@ -1,7 +1,13 @@
+#' Plot interpolate heatmap of entire timeseries
+#'
+#'
+#' @param df dataframe of weekly interpolated data. Output of weeklyInterpolate()
+#' @import ggplot2
 plotTimeseries <- function(df, saveFig = FALSE) {
 
+  binsize = signif(max(df$var,na.rm = T)/20,1)
 
-  ggplot(df, aes(x = date, y = depth, z = var)) +
+  pY = ggplot(df, aes(x = date, y = depth, z = var)) +
     geom_contour_filled(aes(fill = stat(level)), alpha = 0.9, binwidth = binsize) +
     scale_fill_viridis_d(name = var) +
     guides(fill = guide_colorsteps(barheight = unit(6, "cm"))) +
@@ -9,14 +15,20 @@ plotTimeseries <- function(df, saveFig = FALSE) {
     scale_y_reverse() +
     theme_bw()
 
+  print(pY)
+
   if (saveFig == TRUE){
     ggsave(paste0('gamHeatMap_',lakeAbr,'_',var,'.png'), width = 7, height = 4)
   }
 }
 
 
-
-# Zoom into specific year
+#' Plot interpolate heatmap of single year
+#'
+#' @param df dataframe of weekly interpolated data. Output of weeklyInterpolate()
+#' @param observations dataframe of observed data. Output of weeklyInterpolate()
+#' @param chooseYear year of interest
+#' @import ggplot2
 plotTimeseries.year <- function(df, observations, chooseYear, saveFig = FALSE) {
 
   binsize = signif(max(df$var,na.rm = T)/20,1)
