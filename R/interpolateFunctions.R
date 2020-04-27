@@ -11,12 +11,14 @@
 #' @param setThreshold Threshold of RMSE for interpolation
 #'
 #' @import dplyr
-#' @importFrom  plyr rbind.fill
+#' @import akima
 #' @import mgcv
+#' @importFrom  plyr rbind.fill
+#' @importFrom future.apply future_lapply
+#' @importFrom future plan
 #' @importFrom reshape2 melt
 #' @importFrom lubridate decimal_date month
-#' @import akima
-#' @export
+
 weeklyInterpolate <- function(lakeAbr, var, maxdepth, constrainMethod = 'zero', setThreshold = 0.1) {
   # Read in data
   temp = LTERtemp %>%
@@ -54,8 +56,14 @@ weeklyInterpolate <- function(lakeAbr, var, maxdepth, constrainMethod = 'zero', 
     dplyr::filter(depth > (maxdepth/2)) %>%
     dplyr::distinct(sampledate)
 
-  f = lapply(X = usedates$sampledate,FUN = interpData, observationDF = obs,
-             maxdepth = maxdepth, rmse.threshold = setThreshold, constrainMethod = constrainMethod)
+  # apply in parallel (10x faster)
+  plan(multiprocess)
+  f <- future_lapply(X = usedates$sampledate, FUN = interpData, observationDF = obs,
+                      maxdepth = maxdepth, rmse.threshold = setThreshold, constrainMethod = constrainMethod)
+  # # lapply interpolation function
+  # f = lapply(X = usedates$sampledate,FUN = interpData, observationDF = obs,
+  #            maxdepth = maxdepth, rmse.threshold = setThreshold, constrainMethod = constrainMethod)
+
 
   # Bind list into dataframe using plyr
   df <- rbind.fill(f)
@@ -132,9 +140,21 @@ interpData <- function(observationDF, date, maxdepth, rmse.threshold = setThresh
   # New RMSE
   rmse = round(RMSE(outp$meanVar,outp$newp),2) #calculate RMSE
 
-  plot(a$meanVar,a$depth,ylim = rev(range(yout$x)), xlim = c(-0.5,max(outp$newp,na.rm = T)),
-       main = paste0(date,', rmse: ',rmse), cex = 1.5)
-  points(outp$newp,outp$depth,pch = 16)
+
+  # plot(a$meanVar,a$depth,ylim = rev(range(yout$x)), xlim = c(-0.1,max(outp$newp,na.rm = T)),
+  #      main = paste0(date,', rmse: ',rmse), cex = 1.5)
+  # points(outp$newp,outp$depth,pch = 16)
+
+  p = ggplot(a) + geom_point(aes(x = meanVar, y = depth), size = 3, shape = 21, fill = 'gold') +
+    geom_point(data = outp, aes(x = newp, y = depth)) +
+    scale_y_reverse() +
+    xlim(-0.1 , max(outp$newp,na.rm = T)) +
+    labs(title = paste0(date,', rmse: ',rmse)) +
+    theme_bw() +
+    theme(axis.title = element_blank(),title = element_text(size = 8),
+          text = element_text(size = 8))
+
+  print(p)
 
   if (rmse > rmse.threshold){
     print(paste0('RMSE too high: ',date))
