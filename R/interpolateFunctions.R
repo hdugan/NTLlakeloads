@@ -132,7 +132,7 @@ interpData <- function(observationDF, date, maxdepth, rmse.threshold = setThresh
   # New RMSE
   rmse = round(RMSE(outp$meanVar,outp$newp),2) #calculate RMSE
 
-  plot(a$meanVar,a$depth,ylim = rev(range(yout$x)), xlim = c(-2,max(outp$newp,na.rm = T)),
+  plot(a$meanVar,a$depth,ylim = rev(range(yout$x)), xlim = c(-0.5,max(outp$newp,na.rm = T)),
        main = paste0(date,', rmse: ',rmse), cex = 1.5)
   points(outp$newp,outp$depth,pch = 16)
 

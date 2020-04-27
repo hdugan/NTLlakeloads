@@ -1,0 +1,58 @@
+---
+title: "Intro to NTL lake loads"
+author: 'Hilary Dugan'
+date: '2020-04-27'
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{my-vignette}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(NTLlakeloads)
+```
+
+```{r get LTER data}
+# Get LTER data. 
+LTERtemp = loadLTERtemp() # Download all LTER data from EDI
+LTERnutrients = loadLTERnutrients() # Download all LTER data from EDI
+LTERions = loadLTERions() # Download all LTER data from EDI
+
+# Check available variables
+availableVars()
+```
+
+```{r InterpolateWeekly}
+# Interpolate weekly
+df.ME = weeklyInterpolate(lakeAbr = 'ME', var = 'totpuf_sloh', maxdepth = 24, constrainMethod = 'zero', setThreshold = 0.1)
+```
+
+```{r plot, fig.width = 7, fig.height = 5}
+# Plotting timeseries
+plotTimeseries(df.ME$weeklyInterpolated, var = 'totpuf_sloh')
+
+# Plot specific year
+plotTimeseries.year(df.ME$weeklyInterpolated, df.ME$observations,  var = 'totpuf_sloh', chooseYear = 2018)
+```
+
+```{r load}
+# Calculate load at either weekly or annual timescale
+df.load = calcLoad(df.ME$weeklyInterpolated,lakeAbr = 'ME', time.res = 'weekly')
+df.load.annual = calcLoad(df.ME$weeklyInterpolated,lakeAbr = 'ME', time.res = 'annual')
+```
+
+```{r decompse, fig.width = 7, fig.height = 6}
+# Decompose timeseries load
+decomposeTS(df.load, lakeAbr = 'ME', var = 'totpuf_sloh')
+```
+
+
+

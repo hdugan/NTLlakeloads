@@ -6,10 +6,6 @@
 #' @importFrom utils download.file
 #' @export
 loadLTERnutrients <- function() {
-
-  ############ Load libraries ####################################################
-  library(readr)
-
   ############# Load data from web #################################################################
 
   # Package ID: knb-lter-ntl.1.11 Cataloging System:https://pasta.lternet.edu.
@@ -88,9 +84,6 @@ loadLTERnutrients <- function() {
 #' @importFrom readr read_csv
 #' @export
 loadLTERions <- function() {
-  ############ Load libraries ####################################################
-  library(readr)
-
   # Package ID: knb-lter-ntl.2.34 Cataloging System:https://pasta.edirepository.org.
   # Data set title: North Temperate Lakes LTER:
   # Chemical Limnology of Primary Study Lakes: Major Ions 1981 - current ####
@@ -135,9 +128,6 @@ loadLTERions <- function() {
 #' @importFrom readr read_csv
 #' @export
 loadLTERtemp <- function() {
-  ############ Load libraries ####################################################
-  library(readr)
-
   # Package ID: knb-lter-ntl.29.27 Cataloging System:https://pasta.edirepository.org.
   # Data set title: North Temperate Lakes LTER:
   # Physical Limnology of Primary Study Lakes 1981 - current ####
