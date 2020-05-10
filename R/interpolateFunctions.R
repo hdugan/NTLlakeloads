@@ -34,6 +34,8 @@ weeklyInterpolate <- function(lakeAbr, var, maxdepth, constrainMethod = 'zero', 
     dfin = LTERnutrients
   } else if (var %in% names(LTERtemp)) {
     dfin = LTERtemp
+  } else if (var %in% names(LTERchlorophyll)) {
+    dfin = LTERchlorophyll
   }
 
   obs = dfin %>%
@@ -136,7 +138,7 @@ interpData <- function(observationDF, date, maxdepth, rmse.threshold = setThresh
       mutate(newp = predict(lmP,newdata = data.frame(depth,wtemp)))
   } else {
     # GAM model
-    mod1 = gam(meanVar ~ s(wtemp,depth,k=k,bs='tp'), data = a)
+    mod1 = gam(meanVar ~ s(wtemp, depth, k=k, bs='tp'), data = a)
     outp = data.frame(depth = yout$x, wtemp = yout$y) %>%
       mutate(newp = predict(mod1,newdata = data.frame(depth,wtemp)))
   }
@@ -164,4 +166,34 @@ interpData <- function(observationDF, date, maxdepth, rmse.threshold = setThresh
   }
 
   return(outp)
+}
+
+#' Interpolate LTER data to weekly
+#'
+#' Interpolates dataframe of 1-D observations (secchi, light extinction) to weekly timestep.
+#'
+#' @param lakeAbr Lake identification, string
+#' @param var Variable of interest. Use availableVars() to see available variables.
+weeklyInterpolate.1D <- function(lakeAbr, var) {
+  # Read in data
+  if (var %in% names(LTERlight)) {
+    dfin = LTERlight
+  } else if (var %in% names(LTERsecchi)) {
+    dfin = LTERsecchi
+  }
+
+  obs = dfin %>%
+    dplyr::mutate(sampledate = as.Date(sampledate,'%Y-%m-%d')) %>%
+    dplyr::filter(lakeid == lakeAbr & !is.na(get(var))) %>%
+    dplyr::select(sampledate,var) %>%
+    mutate(var = as.numeric(get(var))) %>%
+    dplyr::filter(var >= 0)
+  ############## ############## ############## ############## ##############
+
+  full_x = seq.Date(from = range(obs$sampledate,na.rm = T)[1],to = range(obs$sampledate,na.rm = T)[2], by = 'week')
+  yout = approx(x = obs$sampledate, y = obs$var, xout = full_x)
+
+  output = data.frame(date = full_x, var = yout$y)
+
+  return(list(observations = obs, weeklyInterpolated = output))
 }

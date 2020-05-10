@@ -67,7 +67,7 @@ decomposeTS <- function(df.load, lakeAbr, var) {
 
   pY = ggplot(output) + geom_line(aes(x = date, y = value), color = 'red4') +
     facet_wrap(vars(decompose),scales = 'free', nrow = 4) +
-    geom_vline(xintercept = seq.Date(from = as.Date('1995-01-01'), to = as.Date('2020-01-01'),by = 'year'),
+    geom_vline(xintercept = seq.Date(from = as.Date('1980-01-01'), to = as.Date('2020-01-01'),by = 'year'),
                linetype=2, alpha = 0.4) +
     theme_bw() +
     plot_annotation(title = paste0('Timeseries decomposition: Lake ',lakeAbr,', var: ',var))
