@@ -34,8 +34,8 @@ weeklyInterpolate <- function(lakeAbr, var, maxdepth, constrainMethod = 'zero', 
     dfin = LTERnutrients
   } else if (var %in% names(LTERtemp)) {
     dfin = LTERtemp
-  } else if (var %in% names(LTERchlorophyll)) {
-    dfin = LTERchlorophyll
+  } else if (var %in% names(LTERchlorophyll.north)) {
+    dfin = LTERchlorophyll.north
   }
 
   obs = dfin %>%
@@ -180,6 +180,8 @@ weeklyInterpolate.1D <- function(lakeAbr, var) {
     dfin = LTERlight
   } else if (var %in% names(LTERsecchi)) {
     dfin = LTERsecchi
+  } else if (var %in% names(LTERchlorophyll.north)) {
+    dfin = LTERchlorophyll.north
   }
 
   obs = dfin %>%

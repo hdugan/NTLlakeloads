@@ -38,6 +38,7 @@ plotTimeseries.year <- function(df.interpolated, observations, var, chooseYear, 
   binsize = signif(max(df.interpolated$var,na.rm = T)/20,1)
 
   pY = ggplot(df.interpolated, aes(x = date, y = depth, z = var)) +
+    # geom_rect(aes(xmin = as.Date(paste0(chooseYear,'-01-02')), xmax = as.Date(paste0((chooseYear + 1),'-01-14')), ymin = 0, ymax = max(observations$depth)), color = 'grey50') +
     geom_contour_filled(aes(fill = stat(level)), alpha = 0.9, binwidth = binsize) +
     scale_fill_viridis_d(name = var) +
     guides(fill = guide_colorsteps(barheight = unit(6, "cm"))) +
@@ -46,14 +47,15 @@ plotTimeseries.year <- function(df.interpolated, observations, var, chooseYear, 
               hjust= -0.2, vjust=1.2, size = 3, color = 'white') +
     scale_color_viridis_c() +
     ylab('depth') +
-    xlim(as.Date(paste0(chooseYear,'-01-01')), as.Date(paste0(chooseYear,'-12-01'))) +
-    scale_y_reverse() +
-    theme_bw()
+    xlim(as.Date(paste0(chooseYear,'-01-01')), as.Date(paste0(chooseYear,'-12-31'))) +
+    scale_y_reverse()
+    # theme_bw()
 
   print(pY)
 
   if (saveFig == TRUE) {
     ggsave(paste0('gamHeatMap_',lakeAbr,'_',var,'_',chooseYear,'.png'), width = 7, height = 4)
   }
+  return(pY)
 
 }
