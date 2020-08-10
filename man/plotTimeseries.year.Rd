@@ -20,6 +20,8 @@ plotTimeseries.year(
 \item{var}{Variable of interest. Use availableVars() to see available variables.}
 
 \item{chooseYear}{year of interest}
+
+\item{limits}{range for color scale}
 }
 \description{
 Plot interpolate heatmap of single year

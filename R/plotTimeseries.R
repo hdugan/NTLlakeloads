@@ -22,6 +22,8 @@ plotTimeseries <- function(df.interpolated, var, saveFig = FALSE) {
   if (saveFig == TRUE){
     ggsave(paste0('gamHeatMap_',lakeAbr,'_',var,'.png'), width = 7, height = 4)
   }
+
+  return(pY)
 }
 
 
@@ -31,12 +33,25 @@ plotTimeseries <- function(df.interpolated, var, saveFig = FALSE) {
 #' @param var Variable of interest. Use availableVars() to see available variables.
 #' @param observations dataframe of observed data. Output of weeklyInterpolate()
 #' @param chooseYear year of interest
+#' @param limits range for color scale
 #' @import ggplot2
 #' @export
 plotTimeseries.year <- function(df.interpolated, observations, var, chooseYear, saveFig = FALSE) {
 
   binsize = signif(max(df.interpolated$var,na.rm = T)/20,1)
 
+
+  if(is.null(observations)) {
+    pY = ggplot(df.interpolated, aes(x = date, y = depth, z = var)) +
+      geom_contour_filled(aes(fill = stat(level)), alpha = 0.9, binwidth = binsize) +
+      scale_fill_viridis_d(name = var) +
+      guides(fill = guide_colorsteps(barheight = unit(6, "cm"))) +
+      ylab('depth') +
+      # coord_cartesian(xlim = as.Date(c(paste0(chooseYear,'-01-01'), paste0(chooseYear,'-12-31')))) +
+      xlim(as.Date(paste0(chooseYear,'-01-01')), as.Date(paste0(chooseYear,'-12-31'))) +
+      scale_y_reverse() +
+      theme_bw()
+  } else {
   pY = ggplot(df.interpolated, aes(x = date, y = depth, z = var)) +
     # geom_rect(aes(xmin = as.Date(paste0(chooseYear,'-01-02')), xmax = as.Date(paste0((chooseYear + 1),'-01-14')), ymin = 0, ymax = max(observations$depth)), color = 'grey50') +
     geom_contour_filled(aes(fill = stat(level)), alpha = 0.9, binwidth = binsize) +
@@ -50,6 +65,7 @@ plotTimeseries.year <- function(df.interpolated, observations, var, chooseYear, 
     xlim(as.Date(paste0(chooseYear,'-01-01')), as.Date(paste0(chooseYear,'-12-31'))) +
     scale_y_reverse()
     # theme_bw()
+  }
 
   print(pY)
 
