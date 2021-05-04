@@ -48,11 +48,11 @@ loadLTERions <- function() {
 #' @importFrom readr read_csv
 #' @export
 loadLTERtemp <- function() {
-  # Package ID: knb-lter-ntl.29.27 Cataloging System:https://pasta.edirepository.org.
+  # Package ID: knb-lter-ntl.29.28 Cataloging System:https://pasta.edirepository.org.
   # Data set title: North Temperate Lakes LTER:
   # Physical Limnology of Primary Study Lakes 1981 - current
 
-  inUrl3  <- "https://pasta.lternet.edu/package/data/eml/knb-lter-ntl/29/27/03e232a1b362900e0f059859abe8eb97"
+  inUrl3  <- "https://pasta.lternet.edu/package/data/eml/knb-lter-ntl/29/28/03e232a1b362900e0f059859abe8eb97"
   infile3 <- tempfile()
   download.file(inUrl3,infile3,method="curl")
 
