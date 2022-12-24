@@ -13,7 +13,6 @@
 #' @import dplyr
 #' @import akima
 #' @import mgcv
-#' @importFrom  plyr rbind.fill
 #' @importFrom future.apply future_lapply
 #' @importFrom future plan multiprocess
 #' @importFrom reshape2 melt
@@ -46,7 +45,7 @@ weeklyInterpolate <- function(lakeAbr, var, maxdepth, constrainMethod = 'zero', 
     dplyr::filter(var >= 0) %>%
     dplyr::group_by(sampledate,depth) %>%
     dplyr::summarise(meanVar = mean(var,na.rm=TRUE)) %>%
-    dplyr::full_join(select(temp,sampledate,depth,wtemp)) %>%
+    dplyr::full_join(dplyr::select(temp,sampledate,depth,wtemp)) %>%
     dplyr::mutate(decdate = decimal_date(sampledate)) %>%
     dplyr::filter(!is.na(wtemp)) %>%
     dplyr::mutate(month = month(sampledate)) %>%
@@ -59,7 +58,7 @@ weeklyInterpolate <- function(lakeAbr, var, maxdepth, constrainMethod = 'zero', 
     dplyr::distinct(sampledate)
 
   # apply in parallel (10x faster)
-  plan(multiprocess)
+  plan(multisession)
   f <- future_lapply(X = usedates$sampledate, FUN = interpData, observationDF = obs,
                       maxdepth = maxdepth, rmse.threshold = setThreshold, constrainMethod = constrainMethod)
 
@@ -67,9 +66,11 @@ weeklyInterpolate <- function(lakeAbr, var, maxdepth, constrainMethod = 'zero', 
   # f = lapply(X = usedates$sampledate,FUN = interpData, observationDF = obs,
   #            maxdepth = maxdepth, rmse.threshold = setThreshold, constrainMethod = constrainMethod)
 
-  # Bind list into dataframe using plyr
-  df <- rbind.fill(f)
-
+  
+  # Bind list into dataframe
+  df <- do.call(rbind.data.frame, f)
+  
+  
   # Paginate interpolation figures
   if (printFigs == TRUE) {
     for (i in 1:ceiling(length(unique(df$sampledate))/36)) {
