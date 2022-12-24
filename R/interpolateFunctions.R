@@ -14,7 +14,7 @@
 #' @import akima
 #' @import mgcv
 #' @importFrom future.apply future_lapply
-#' @importFrom future plan multiprocess
+#' @importFrom future plan multisession
 #' @importFrom reshape2 melt
 #' @importFrom lubridate decimal_date month
 #' @importFrom ggforce facet_wrap_paginate
