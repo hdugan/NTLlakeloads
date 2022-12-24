@@ -98,7 +98,7 @@ weeklyInterpolate <- function(lakeAbr, var, maxdepth, constrainMethod = 'zero', 
   a = expand.grid(sampledate = full_x, depth = full_y)
 
   interped = akima::interp(x = df2$sampledate, y = df2$depth, z = df2$newp, full_x, full_y,
-                           duplicate = 'mean',linear=T, extrap = F)
+                           duplicate = 'mean',linear=T, extrap = F, jitter = 10e-5)
 
 
   dimnames(interped$z) =  list(full_x, interped$y)
