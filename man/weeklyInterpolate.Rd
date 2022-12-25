@@ -7,6 +7,7 @@
 weeklyInterpolate(
   lakeAbr,
   var,
+  dataset,
   maxdepth,
   constrainMethod = "zero",
   setThreshold = 0.1,
@@ -18,14 +19,24 @@ weeklyInterpolate(
 
 \item{var}{Variable of interest. Use availableVars() to see available variables.}
 
+\item{dataset}{NTL dataset with the variable of interest downloaded via loadLTER...() functions}
+
 \item{maxdepth}{Maximum depth of lake}
 
 \item{constrainMethod}{Options to constrain interpolation.
 Options are 'zero' (cannot go below zero, default) and 'range' (can not go beyond range of observed data)}
 
-\item{setThreshold}{Threshold of RMSE for interpolation}
+\item{setThreshold}{Threshold of RMSE for interpolation. Use units of variable. If the function returns many 
+predict.lm warnings, the threshold should be increased.}
 
 \item{printFigs}{Output individual profiles of interpolation? Options TRUE or FALSE (default)}
+}
+\value{
+returns a dataframe with three columns, data, depth, and var
+#' @examples
+#Interpolate TP data
+NTLnutrients = loadLTERnutrients()
+weeklyInterpolate.1D(lakeAbr = 'ME',var = 'drp_sloh',dataset = NTLnutrients)
 }
 \description{
 Interpolates dataframe of observations to weekly timestep at 1 m depth intervals.

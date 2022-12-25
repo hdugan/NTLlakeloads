@@ -4,13 +4,23 @@
 \alias{weeklyInterpolate.1D}
 \title{Interpolate LTER data to weekly}
 \usage{
-weeklyInterpolate.1D(lakeAbr, var)
+weeklyInterpolate.1D(lakeAbr, var, dataset)
 }
 \arguments{
 \item{lakeAbr}{Lake identification, string}
 
 \item{var}{Variable of interest. Use availableVars() to see available variables.}
+
+\item{dataset}{NTL dataset with the variable of interest downloaded via loadLTER...() functions}
+}
+\value{
+returns a dataframe with three columns, data, depth, and var
 }
 \description{
 Interpolates dataframe of 1-D observations (secchi, light extinction) to weekly timestep.
+}
+\examples{
+#Interpolate Secchi data
+NTLsecchi = loadLTERsecchi()
+weeklyInterpolate.1D(lakeAbr = 'ME',var = 'secnview',dataset = NTLsecchi)
 }

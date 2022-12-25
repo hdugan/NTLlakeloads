@@ -5,11 +5,19 @@
 #'
 #' @param lakeAbr Lake identification, string
 #' @param var Variable of interest. Use availableVars() to see available variables.
+#' @param dataset NTL dataset with the variable of interest downloaded via loadLTER...() functions
 #' @param maxdepth Maximum depth of lake
 #' @param constrainMethod Options to constrain interpolation.
 #' Options are 'zero' (cannot go below zero, default) and 'range' (can not go beyond range of observed data)
-#' @param setThreshold Threshold of RMSE for interpolation
+#' @param setThreshold Threshold of RMSE for interpolation. Use units of variable. If the function returns many 
+#' predict.lm warnings, the threshold should be increased. 
 #' @param printFigs Output individual profiles of interpolation? Options TRUE or FALSE (default)
+#' @returns
+#' returns a dataframe with three columns, data, depth, and var
+#' #' @examples
+#' #Interpolate TP data
+#' NTLnutrients = loadLTERnutrients()
+#' weeklyInterpolate.1D(lakeAbr = 'ME',var = 'drp_sloh',dataset = NTLnutrients)
 #' @import dplyr
 #' @import akima
 #' @import mgcv
@@ -19,25 +27,20 @@
 #' @importFrom lubridate decimal_date month
 #' @importFrom ggforce facet_wrap_paginate
 #' @export
-weeklyInterpolate <- function(lakeAbr, var, maxdepth, constrainMethod = 'zero', setThreshold = 0.1, printFigs = FALSE) {
+weeklyInterpolate <- function(lakeAbr, var, dataset,  maxdepth,
+                              constrainMethod = 'zero', setThreshold = 0.1, printFigs = FALSE) {
   # Read in data
+  if (!exists(LTERtemp)) {
+    LTERtemp = loadLTERtemp() # Download NTL LTER data from EDI
+  }
+  
   temp = LTERtemp %>%
     dplyr::filter(!is.na(wtemp)) %>%
     dplyr::filter(lakeid == lakeAbr) %>%
     dplyr::group_by(sampledate,depth) %>%
     dplyr::summarise(wtemp = mean(wtemp,na.rm=TRUE)) # Temp and Oxygen
-
-  if (var %in% names(LTERions)) {
-    dfin = LTERions
-  } else if (var %in% names(LTERnutrients)) {
-    dfin = LTERnutrients
-  } else if (var %in% names(LTERtemp)) {
-    dfin = LTERtemp
-  } else if (var %in% names(LTERchlorophyll.north)) {
-    dfin = LTERchlorophyll.north
-  }
-
-  obs = dfin %>%
+  
+  obs = dataset %>%
     dplyr::mutate(sampledate = as.Date(sampledate,'%Y-%m-%d')) %>%
     dplyr::filter(lakeid == lakeAbr & !is.na(get(var))) %>%
     dplyr::select(sampledate,depth,var) %>%
@@ -49,7 +52,8 @@ weeklyInterpolate <- function(lakeAbr, var, maxdepth, constrainMethod = 'zero', 
     dplyr::mutate(decdate = decimal_date(sampledate)) %>%
     dplyr::filter(!is.na(wtemp)) %>%
     dplyr::mutate(month = month(sampledate)) %>%
-    dplyr::arrange(sampledate,depth) # %>% mutate(meanVar = log(meanVar+1))
+    dplyr::arrange(sampledate,depth) 
+  
   ############## ############## ############## ############## ##############
 
   usedates = obs %>%
@@ -65,11 +69,9 @@ weeklyInterpolate <- function(lakeAbr, var, maxdepth, constrainMethod = 'zero', 
   # # lapply interpolation function
   # f = lapply(X = usedates$sampledate,FUN = interpData, observationDF = obs,
   #            maxdepth = maxdepth, rmse.threshold = setThreshold, constrainMethod = constrainMethod)
-
   
   # Bind list into dataframe
   df <- do.call(rbind.data.frame, f)
-  
   
   # Paginate interpolation figures
   if (printFigs == TRUE) {
@@ -175,17 +177,16 @@ interpData <- function(observationDF, date, maxdepth, rmse.threshold = setThresh
 #'
 #' @param lakeAbr Lake identification, string
 #' @param var Variable of interest. Use availableVars() to see available variables.
-weeklyInterpolate.1D <- function(lakeAbr, var) {
-  # Read in data
-  if (var %in% names(LTERlight)) {
-    dfin = LTERlight
-  } else if (var %in% names(LTERsecchi)) {
-    dfin = LTERsecchi
-  } else if (var %in% names(LTERchlorophyll.north)) {
-    dfin = LTERchlorophyll.north
-  }
+#' @param dataset NTL dataset with the variable of interest downloaded via loadLTER...() functions
+#' @returns
+#' returns a dataframe with three columns, data, depth, and var
+#' @examples
+#' #Interpolate Secchi data
+#' NTLsecchi = loadLTERsecchi()
+#' weeklyInterpolate.1D(lakeAbr = 'ME',var = 'secnview',dataset = NTLsecchi)
+weeklyInterpolate.1D <- function(lakeAbr, var, dataset) {
 
-  obs = dfin %>%
+  obs = dataset %>%
     dplyr::mutate(sampledate = as.Date(sampledate,'%Y-%m-%d')) %>%
     dplyr::filter(lakeid == lakeAbr & !is.na(get(var))) %>%
     dplyr::select(sampledate,var) %>%
