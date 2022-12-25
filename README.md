@@ -34,9 +34,9 @@ LTERions = loadLTERions() # Download NTL LTER data from EDI
 LTERsecchi = loadLTERsecchi() # Download NTL LTER data from EDI
 ```
 
-# Additionally, these datasets can be viewed at
+### Additionally, these datasets can be viewed at
 
-# <https://github.com/hdugan/NTLviewer>
+### <https://github.com/hdugan/NTLviewer>
 
 ## Variables available for plotting
 
@@ -63,7 +63,7 @@ df.ME = weeklyInterpolate(lakeAbr = 'ME', var = 'totpuf_sloh', dataset = LTERnut
 plotTimeseries(df.interpolated = df.ME$weeklyInterpolated, var = 'totpuf_sloh')
 ```
 
-![](man/figures/README-unnamed-chunk-4-1.png)<!-- -->![](man/figures/README-unnamed-chunk-4-2.png)<!-- -->
+![](man/figures/README-unnamed-chunk-4-1.png)<!-- -->
 
 ## Plot specific year with observed data
 
@@ -72,14 +72,15 @@ plotTimeseries(df.interpolated = df.ME$weeklyInterpolated, var = 'totpuf_sloh')
 plotTimeseries.year(df.interpolated = df.ME$weeklyInterpolated, observations = df.ME$observations,  var = 'totpuf_sloh', chooseYear = 2008)
 ```
 
-![](man/figures/README-unnamed-chunk-5-1.png)<!-- -->![](man/figures/README-unnamed-chunk-5-2.png)<!-- -->
+![](man/figures/README-unnamed-chunk-5-1.png)<!-- -->
 
 ``` r
+
 # Without observations, but adding legend title 
 plotTimeseries.year(df.interpolated = df.ME$weeklyInterpolated, var = 'totpuf_sloh', chooseYear = 2008, legend.title = 'TP (µg/L)')
 ```
 
-![](man/figures/README-unnamed-chunk-5-3.png)<!-- -->![](man/figures/README-unnamed-chunk-5-4.png)<!-- -->
+![](man/figures/README-unnamed-chunk-5-2.png)<!-- -->
 
 ## Calculate load at annual or weekly timescales
 
