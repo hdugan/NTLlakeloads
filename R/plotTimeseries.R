@@ -4,11 +4,12 @@
 #' @param df.interpolated dataframe of weekly interpolated data. Output of weeklyInterpolate()
 #' @param var Variable of interest. Use availableVars() to see available variables.
 #' @param saveFig If TRUE, saves a png to the working directory (default = FALSE)
+#' @param legend.title Choice to specify legend title
 #' @import ggplot2
 #' @import dplyr
 #' @import lubridate
 #' @export
-plotTimeseries <- function(df.interpolated, var, saveFig = FALSE) {
+plotTimeseries <- function(df.interpolated, var, legend.title = NULL, saveFig = FALSE) {
 
   binsize = signif(max(df.interpolated$var,na.rm = T)/20,1)
 
@@ -21,6 +22,10 @@ plotTimeseries <- function(df.interpolated, var, saveFig = FALSE) {
     scale_x_date(expand = expansion(0)) +
     theme_bw(base_size = 10) +
     theme(axis.title.x = element_blank())
+  
+  if (exists('legend.title')){
+    pY = pY + guides(fill=guide_legend(title = legend.title))
+  }
 
   print(pY)
 
@@ -40,10 +45,11 @@ plotTimeseries <- function(df.interpolated, var, saveFig = FALSE) {
 #' If NULL (default) no points plotted 
 #' @param chooseYear year of interest
 #' @param limits range for color scale
+#' @param legend.title Choice to specify legend title
 #' @param saveFig If TRUE, saves a png to the working directory (default = FALSE)
 #' @import ggplot2
 #' @export
-plotTimeseries.year <- function(df.interpolated, observations = NULL, var, chooseYear, saveFig = FALSE) {
+plotTimeseries.year <- function(df.interpolated, observations = NULL, var, chooseYear, legend.title = NULL, saveFig = FALSE) {
 
   binsize = signif(max(df.interpolated$var,na.rm = T)/20,1)
 
@@ -83,8 +89,13 @@ plotTimeseries.year <- function(df.interpolated, observations = NULL, var, choos
     theme(axis.title.x = element_blank())
   }
 
+  if (exists('legend.title')){
+    pY = pY + guides(fill=guide_legend(title = legend.title))
+  }
+  
   print(pY)
 
+  
   if (saveFig == TRUE) {
     ggsave(paste0('gamHeatMap_',lakeAbr,'_',var,'_',chooseYear,'.png'), width = 7, height = 4)
   }

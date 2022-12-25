@@ -33,7 +33,7 @@
 weeklyInterpolate <- function(lakeAbr, var, dataset,  maxdepth,
                               constrainMethod = 'zero', setThreshold = 0.1, printFigs = FALSE) {
   # Read in data
-  if (!exists(LTERtemp)) {
+  if (!exists('LTERtemp')) {
     LTERtemp = loadLTERtemp() # Download NTL LTER data from EDI
   }
   

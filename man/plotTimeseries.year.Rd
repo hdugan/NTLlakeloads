@@ -9,6 +9,7 @@ plotTimeseries.year(
   observations = NULL,
   var,
   chooseYear,
+  legend.title = NULL,
   saveFig = FALSE
 )
 }
@@ -21,6 +22,8 @@ If NULL (default) no points plotted}
 \item{var}{Variable of interest. Use availableVars() to see available variables.}
 
 \item{chooseYear}{year of interest}
+
+\item{legend.title}{Choice to specify legend title}
 
 \item{saveFig}{If TRUE, saves a png to the working directory (default = FALSE)}
 

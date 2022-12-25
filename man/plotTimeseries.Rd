@@ -4,12 +4,14 @@
 \alias{plotTimeseries}
 \title{Plot interpolate heatmap of entire timeseries}
 \usage{
-plotTimeseries(df.interpolated, var, saveFig = FALSE)
+plotTimeseries(df.interpolated, var, legend.title = NULL, saveFig = FALSE)
 }
 \arguments{
 \item{df.interpolated}{dataframe of weekly interpolated data. Output of weeklyInterpolate()}
 
 \item{var}{Variable of interest. Use availableVars() to see available variables.}
+
+\item{legend.title}{Choice to specify legend title}
 
 \item{saveFig}{If TRUE, saves a png to the working directory (default = FALSE)}
 }

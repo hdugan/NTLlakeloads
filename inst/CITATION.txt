@@ -1,0 +1,10 @@
+citHeader("If you use NTLlakeloads in work, feel free to cite NTLlakeloads. However, we ask that you cite the original NTL data DOIs.")
+
+citEntry(
+  entry    = "software",
+  title    = "{NTLlakeloads: Tools for the analysis of long-term NTL-LTER data}",
+  author   = personList(as.person("Hilary Dugan")),
+  note = {R package version 0.1.0},
+  year = {2022},
+  url = {https://github.com/hdugan/NTLlakeloads},
+)

@@ -4,14 +4,18 @@
 \alias{calcLoad}
 \title{Calculate weekly or annual load}
 \usage{
-calcLoad(df, lakeAbr, time.res = "weekly")
+calcLoad(df.interpolated, lakeAbr, time.res = "weekly", conversion = 1)
 }
 \arguments{
-\item{df}{dataframe of weekly interpolated data. Output of weeklyInterpolate()}
+\item{df.interpolated}{dataframe of weekly interpolated data. Output of weeklyInterpolate()}
 
 \item{lakeAbr}{Lake identification, string}
 
-\item{time.res}{Time resolution. Options are 'weekly' (default) or 'annual'}
+\item{time.res}{Time resolution. Options are 'weekly' (gives a daily load at a weekly timestep) or 
+'annual' (gives an annual load at an annual timestep)}
+
+\item{conversion}{Load unit conversion. Ex. if unit of var is µg/L and the load will be output in µg.
+A conversion factor of 1e6 will provide kg.}
 }
 \description{
 Input weekly 1-m depth profiles to calculate depth integrated load at weekly or annual timescales
