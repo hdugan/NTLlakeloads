@@ -6,7 +6,7 @@
 \usage{
 plotTimeseries.year(
   df.interpolated,
-  observations,
+  observations = NULL,
   var,
   chooseYear,
   saveFig = FALSE
@@ -15,11 +15,14 @@ plotTimeseries.year(
 \arguments{
 \item{df.interpolated}{dataframe of weekly interpolated data. Output of weeklyInterpolate()}
 
-\item{observations}{dataframe of observed data. Output of weeklyInterpolate()}
+\item{observations}{To plot observed data, provide a dataframe of observed data. Output of weeklyInterpolate().
+If NULL (default) no points plotted}
 
 \item{var}{Variable of interest. Use availableVars() to see available variables.}
 
 \item{chooseYear}{year of interest}
+
+\item{saveFig}{If TRUE, saves a png to the working directory (default = FALSE)}
 
 \item{limits}{range for color scale}
 }

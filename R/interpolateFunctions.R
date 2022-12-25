@@ -8,12 +8,15 @@
 #' @param dataset NTL dataset with the variable of interest downloaded via loadLTER...() functions
 #' @param maxdepth Maximum depth of lake
 #' @param constrainMethod Options to constrain interpolation.
-#' Options are 'zero' (cannot go below zero, default) and 'range' (can not go beyond range of observed data)
+#' Options are 'zero' (cannot go below zero, cannot go 1.5x above max, default) 
+#' and 'range' (can not go beyond range of observed data)
 #' @param setThreshold Threshold of RMSE for interpolation. Use units of variable. If the function returns many 
 #' predict.lm warnings, the threshold should be increased. 
 #' @param printFigs Output individual profiles of interpolation? Options TRUE or FALSE (default)
 #' @returns
-#' returns a dataframe with three columns, data, depth, and var
+#' returns a list 
+#' [[1]]: observation data
+#' [[2]]: dataframe with three columns, data, depth, and var
 #' #' @examples
 #' #Interpolate TP data
 #' NTLnutrients = loadLTERnutrients()
@@ -105,8 +108,18 @@ weeklyInterpolate <- function(lakeAbr, var, dataset,  maxdepth,
 
   dimnames(interped$z) =  list(full_x, interped$y)
   df3 <- melt(interped$z, varnames = c('date', 'depth'), value.name = 'var')
-
   df3$date = as.Date(df3$date,origin = '1970-01-01')
+  
+  # constrainMethod Type (zero = min set to zero, range = set to range)
+  if (constrainMethod == 'zero') {
+    df3 = df3 %>% mutate(var = ifelse(var < 0, 0, var)) %>%
+      mutate(var = ifelse(var > (max(obs$meanVar, na.rm = T) * 1.5), max(obs$meanVar, na.rm = T), var)) 
+  }
+  if (constrainMethod == 'range') {
+    df3 = df3 %>% mutate(var = ifelse(var < min(obs$meanVar, na.rm = T), min(obs$meanVar, na.rm = T), var)) %>%
+      mutate(var = ifelse(var > (max(obs$meanVar, na.rm = T)*1), max(obs$meanVar, na.rm = T), var))
+  }
+  
   return(list(observations = obs, weeklyInterpolated = df3))
 }
 
@@ -179,7 +192,9 @@ interpData <- function(observationDF, date, maxdepth, rmse.threshold = setThresh
 #' @param var Variable of interest. Use availableVars() to see available variables.
 #' @param dataset NTL dataset with the variable of interest downloaded via loadLTER...() functions
 #' @returns
-#' returns a dataframe with three columns, data, depth, and var
+#' returns a list 
+#' [[1]]: observation data
+#' [[2]]: returns a dataframe with two columns, data and var
 #' @examples
 #' #Interpolate Secchi data
 #' NTLsecchi = loadLTERsecchi()

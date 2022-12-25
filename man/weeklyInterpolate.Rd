@@ -24,7 +24,8 @@ weeklyInterpolate(
 \item{maxdepth}{Maximum depth of lake}
 
 \item{constrainMethod}{Options to constrain interpolation.
-Options are 'zero' (cannot go below zero, default) and 'range' (can not go beyond range of observed data)}
+Options are 'zero' (cannot go below zero, cannot go 1.5x above max, default) 
+and 'range' (can not go beyond range of observed data)}
 
 \item{setThreshold}{Threshold of RMSE for interpolation. Use units of variable. If the function returns many 
 predict.lm warnings, the threshold should be increased.}
@@ -32,7 +33,9 @@ predict.lm warnings, the threshold should be increased.}
 \item{printFigs}{Output individual profiles of interpolation? Options TRUE or FALSE (default)}
 }
 \value{
-returns a dataframe with three columns, data, depth, and var
+returns a list 
+[[1]]: observation data
+[[2]]: dataframe with three columns, data, depth, and var
 #' @examples
 #Interpolate TP data
 NTLnutrients = loadLTERnutrients()

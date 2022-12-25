@@ -10,6 +10,8 @@ plotTimeseries(df.interpolated, var, saveFig = FALSE)
 \item{df.interpolated}{dataframe of weekly interpolated data. Output of weeklyInterpolate()}
 
 \item{var}{Variable of interest. Use availableVars() to see available variables.}
+
+\item{saveFig}{If TRUE, saves a png to the working directory (default = FALSE)}
 }
 \description{
 Plot interpolate heatmap of entire timeseries

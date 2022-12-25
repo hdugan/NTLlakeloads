@@ -14,7 +14,9 @@ weeklyInterpolate.1D(lakeAbr, var, dataset)
 \item{dataset}{NTL dataset with the variable of interest downloaded via loadLTER...() functions}
 }
 \value{
-returns a dataframe with three columns, data, depth, and var
+returns a list 
+[[1]]: observation data
+[[2]]: returns a dataframe with two columns, data and var
 }
 \description{
 Interpolates dataframe of 1-D observations (secchi, light extinction) to weekly timestep.
