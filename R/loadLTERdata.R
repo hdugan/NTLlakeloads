@@ -6,10 +6,11 @@
 #' @importFrom utils download.file
 #' @export
 loadLTERnutrients <- function() {
-  # Package ID: knb-lter-ntl.1.11 Cataloging System:https://pasta.lternet.edu.
+  # Package ID: knb-lter-ntl.1.57 Cataloging System:https://pasta.lternet.edu.
   # Data set title: North Temperate Lakes LTER:
   # Chemical Limnology of Primary Study Lakes: Nutrients, pH and Carbon 1981 - current
-  inUrl1  <- "https://pasta.lternet.edu/package/data/eml/knb-lter-ntl/1/52/802d63a4c35050b09ef6d1e7da3efd3f"
+  
+  inUrl1  <- "https://pasta.lternet.edu/package/data/eml/knb-lter-ntl/1/57/802d63a4c35050b09ef6d1e7da3efd3f"
   infile1 <- tempfile()
   download.file(inUrl1, infile1, method="curl")
 
@@ -29,11 +30,11 @@ loadLTERnutrients <- function() {
 #' @importFrom readr read_csv
 #' @export
 loadLTERions <- function() {
-  # Package ID: knb-lter-ntl.2.34 Cataloging System:https://pasta.edirepository.org.
+  # Package ID: knb-lter-ntl.2.36 Cataloging System:https://pasta.edirepository.org.
   # Data set title: North Temperate Lakes LTER:
   # Chemical Limnology of Primary Study Lakes: Major Ions 1981 - current
 
-  inUrl2  <- "https://pasta.lternet.edu/package/data/eml/knb-lter-ntl/2/34/3f740d0b77b3caf6930a8ce9cca4306a"
+  inUrl2  <- "https://pasta.lternet.edu/package/data/eml/knb-lter-ntl/2/36/3f740d0b77b3caf6930a8ce9cca4306a"
   infile2 <- tempfile()
   download.file(inUrl2,infile2,method="curl")
 
@@ -48,11 +49,11 @@ loadLTERions <- function() {
 #' @importFrom readr read_csv
 #' @export
 loadLTERtemp <- function() {
-  # Package ID: knb-lter-ntl.29.28 Cataloging System:https://pasta.edirepository.org.
+  # Package ID: knb-lter-ntl.29.34 Cataloging System:https://pasta.edirepository.org.
   # Data set title: North Temperate Lakes LTER:
   # Physical Limnology of Primary Study Lakes 1981 - current
 
-  inUrl3  <- "https://pasta.lternet.edu/package/data/eml/knb-lter-ntl/29/28/03e232a1b362900e0f059859abe8eb97"
+  inUrl3  <- "https://pasta.lternet.edu/package/data/eml/knb-lter-ntl/29/34/03e232a1b362900e0f059859abe8eb97"
   infile3 <- tempfile()
   download.file(inUrl3,infile3,method="curl")
 
@@ -74,10 +75,10 @@ loadLTERtemp <- function() {
 #'@importFrom readr read_csv
 #'@export
 loadLTERchlorophyll.north <- function() {
-  # Package ID: knb-lter-ntl.35.30 Cataloging System:https://pasta.edirepository.org.
+  # Package ID: knb-lter-ntl.35.31 Cataloging System:https://pasta.edirepository.org.
   # Data set title: North Temperate Lakes LTER: Chlorophyll - Trout Lake Area 1981 - current.
 
-  inUrl1  <- "https://pasta.lternet.edu/package/data/eml/knb-lter-ntl/35/30/a38bab3c7d90f4c24f3f603d7fac8c2e"
+  inUrl1  <- "https://pasta.lternet.edu/package/data/eml/knb-lter-ntl/35/31/a38bab3c7d90f4c24f3f603d7fac8c2e"
   infile1 <- tempfile()
   download.file(inUrl1,infile1,method="curl")
 
@@ -104,9 +105,9 @@ loadLTERchlorophyll.north <- function() {
 #' @importFrom readr read_csv
 #' @export
 loadLTERchlorophyll.south <- function() {
-  # Package ID: knb-lter-ntl.38.27 Cataloging System:https://pasta.edirepository.org.
+  # Package ID: knb-lter-ntl.38.28 Cataloging System:https://pasta.edirepository.org.
   # Data set title: North Temperate Lakes LTER: Chlorophyll - Madison Lakes Area 1995 - current.
-  inUrl1  <- "https://pasta.lternet.edu/package/data/eml/knb-lter-ntl/38/27/66796c3bc77617e7cc95c4b09d4995c5"
+  inUrl1  <- "https://pasta.lternet.edu/package/data/eml/knb-lter-ntl/38/28/66796c3bc77617e7cc95c4b09d4995c5"
   infile1 <- tempfile()
   download.file(inUrl1,infile1,method="curl")
 
@@ -124,10 +125,10 @@ loadLTERchlorophyll.south <- function() {
 #' @importFrom readr read_csv
 #' @export
 loadLTERlight <- function() {
-  # Package ID: knb-lter-ntl.259.15 Cataloging System:https://pasta.edirepository.org.
+  # Package ID: knb-lter-ntl.259.17 Cataloging System:https://pasta.edirepository.org.
   # Data set title: North Temperate Lakes LTER: Light Extinction - Trout Lake Area 1981 - current.
 
-  inUrl1  <- "https://pasta.lternet.edu/package/data/eml/knb-lter-ntl/259/15/7b02f899a766ebda2339003c4e162836"
+  inUrl1  <- "https://pasta.lternet.edu/package/data/eml/knb-lter-ntl/259/17/7b02f899a766ebda2339003c4e162836"
   infile1 <- tempfile()
   download.file(inUrl1,infile1,method="curl")
 
@@ -154,10 +155,10 @@ loadLTERlight <- function() {
 #' @importFrom readr read_csv
 #' @export
 loadLTERsecchi <- function() {
-  # Package ID: knb-lter-ntl.31.29 Cataloging System:https://pasta.edirepository.org.
+  # Package ID: knb-lter-ntl.31.31 Cataloging System:https://pasta.edirepository.org.
   # Data set title: North Temperate Lakes LTER: Secchi Disk Depth; Other Auxiliary Base Crew Sample Data 1981 - current.
 
-  inUrl1  <- "https://pasta.lternet.edu/package/data/eml/knb-lter-ntl/31/29/5a5a5606737d760b61c43bc59460ccc9"
+  inUrl1  <- "https://pasta.lternet.edu/package/data/eml/knb-lter-ntl/31/31/5a5a5606737d760b61c43bc59460ccc9"
   infile1 <- tempfile()
   download.file(inUrl1,infile1,method="curl")
 
@@ -178,10 +179,10 @@ loadLTERsecchi <- function() {
 #' @importFrom readr read_csv
 #' @export
 loadLTERsnow <- function() {
-  # Package ID: knb-lter-ntl.34.31 Cataloging System:https://pasta.edirepository.org.
+  # Package ID: knb-lter-ntl.34.36 Cataloging System:https://pasta.edirepository.org.
   # Data set title: North Temperate Lakes LTER: Snow and Ice Depth 1982 - current.
 
-  inUrl1  <- "https://pasta.lternet.edu/package/data/eml/knb-lter-ntl/34/31/9af7f7d823fd8be3e4e31ccd7d4bb003"
+  inUrl1  <- "https://pasta.lternet.edu/package/data/eml/knb-lter-ntl/34/36/9af7f7d823fd8be3e4e31ccd7d4bb003"
   infile1 <- tempfile()
   download.file(inUrl1,infile1,method="curl")
 
@@ -235,10 +236,10 @@ loadLTERsnow <- function() {
 #' @importFrom readr read_csv
 #' @export
 loadLTERphytoplankton <- function() {
-  # Package ID: knb-lter-ntl.88.28 Cataloging System:https://pasta.edirepository.org.
+  # Package ID: knb-lter-ntl.88.31 Cataloging System:https://pasta.edirepository.org.
   # Data set title: North Temperate Lakes LTER: Phytoplankton - Madison Lakes Area 1995 - current
 
-  inUrl1  <- "https://pasta.lternet.edu/package/data/eml/knb-lter-ntl/88/28/f2de15b2fff6ae962a04c150c0a1c510"
+  inUrl1  <- "https://pasta.lternet.edu/package/data/eml/knb-lter-ntl/88/31/f2de15b2fff6ae962a04c150c0a1c510"
   infile1 <- tempfile()
   download.file(inUrl1,infile1,method="curl")
 
@@ -288,10 +289,10 @@ loadLTERphytoplankton <- function() {
 #'@importFrom readr read_csv
 #'@export
 loadLTERzooplankton <- function() {
-  # Package ID: knb-lter-ntl.90.31 Cataloging System:https://pasta.edirepository.org.
+  # Package ID: knb-lter-ntl.90.33 Cataloging System:https://pasta.edirepository.org.
   # Data set title: North Temperate Lakes LTER: Zooplankton - Madison Lakes Area 1997 - current.
 
-  inUrl1  <- "https://pasta.lternet.edu/package/data/eml/knb-lter-ntl/90/31/5880c7ba184589e239aec9c55f9d313b"
+  inUrl1  <- "https://pasta.lternet.edu/package/data/eml/knb-lter-ntl/90/33/5880c7ba184589e239aec9c55f9d313b"
   infile1 <- tempfile()
   download.file(inUrl1,infile1,method="curl")
 
@@ -299,26 +300,4 @@ loadLTERzooplankton <- function() {
     "lakeid","year4","sample_date","station",
     "towdepth","species_code","species_name","density","individuals_measured","avg_length")) %>%
     rename(sampledate = sample_date)
-}
-
-#' List of available variables from NTL datasets
-#' @export
-availableVars <- function() {
-
-  aVars = c("ph", "phair", "alk", "dic", "tic", "doc", "toc", "no3no2", "no2", "nh4", "totnf",
-  "totnuf", "totpf", "totpuf", "drsif", "brsif", "brsiuf", "tpm", "totnuf_sloh", "no3no2_sloh",
-  "nh4_sloh", "kjdl_n_sloh", "totpuf_sloh", "drp_sloh", "drsif_sloh",
-  "cl", "so4", "ca", "mg", "na", "k", "fe", "mn", "cond","o2", "o2sat","frlight",
-  "chlor","phaeo")
-
-  return(aVars)
-}
-
-#' List of 1-D available variables from NTL datasets
-#' @export
-availableVars.1D <- function() {
-
-  aVars = c("extcoef", "secview", "secnview")
-
-  return(aVars)
 }
