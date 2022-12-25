@@ -27,8 +27,6 @@ plotTimeseries <- function(df.interpolated, var, legend.title = NULL, saveFig = 
     pY = pY + guides(fill=guide_legend(title = legend.title))
   }
 
-  print(pY)
-
   if (saveFig == TRUE){
     ggsave(paste0('gamHeatMap_',lakeAbr,'_',var,'.png'), width = 7, height = 4)
   }
@@ -93,12 +91,10 @@ plotTimeseries.year <- function(df.interpolated, observations = NULL, var, choos
     pY = pY + guides(fill=guide_legend(title = legend.title))
   }
   
-  print(pY)
-
-  
   if (saveFig == TRUE) {
     ggsave(paste0('gamHeatMap_',lakeAbr,'_',var,'_',chooseYear,'.png'), width = 7, height = 4)
   }
+  
   return(pY)
 
 }

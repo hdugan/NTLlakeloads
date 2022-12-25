@@ -40,6 +40,9 @@ LTERions = loadLTERions() # Download NTL LTER data from EDI
 LTERsecchi = loadLTERsecchi() # Download NTL LTER data from EDI
 ```
 
+### Additionally, these datasets can be viewed at
+### https://github.com/hdugan/NTLviewer
+
 ## Variables available for plotting
 ```{r, eval = FALSE}
 # Available variables
@@ -59,13 +62,14 @@ df.ME = weeklyInterpolate(lakeAbr = 'ME', var = 'totpuf_sloh', dataset = LTERnut
 
 ## Plotting entire timeseries 
 ```{r, eval = T, warning = F, message = F, fig.width = 7}
-plotTimeseries(df.ME$weeklyInterpolated, var = 'totpuf_sloh')
+plotTimeseries(df.interpolated = df.ME$weeklyInterpolated, var = 'totpuf_sloh')
 ```
 
 ## Plot specific year with observed data
 ```{r, eval = T, warning = F, message = F, fig.width = 7 }
 # With observations
 plotTimeseries.year(df.interpolated = df.ME$weeklyInterpolated, observations = df.ME$observations,  var = 'totpuf_sloh', chooseYear = 2008)
+
 # Without observations, but adding legend title 
 plotTimeseries.year(df.interpolated = df.ME$weeklyInterpolated, var = 'totpuf_sloh', chooseYear = 2008, legend.title = 'TP (µg/L)')
 ```
@@ -77,6 +81,8 @@ df.load.annual = calcLoad(df.ME$weeklyInterpolated,lakeAbr = 'ME', time.res = 'a
 
 ## Example of plotting annual load 
 ```{r, eval = T, warning = F, message = F, fig.width = 7, fig.height= 4}
+library(ggplot2)
+
 ggplot(df.load.annual, aes(x = year, y = load)) +
   geom_path() +
   geom_point() +
@@ -86,7 +92,9 @@ ggplot(df.load.annual, aes(x = year, y = load)) +
   theme(axis.title.x = element_blank())
 ```
 
-## Decompose timeseries to analyse trends, seasonality
+## Decompose weekly load timeseries to analyse trends and seasonality
 ```{r, eval = T, warning = F, message = F}
+df.load = calcLoad(df.ME$weeklyInterpolated,lakeAbr = 'ME', time.res = 'weekly', conversion = 1e6)
+
 decomposeTS(df.load, lakeAbr = 'ME', var = 'totpuf_sloh')
 ```
