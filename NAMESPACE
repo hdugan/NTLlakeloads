@@ -2,7 +2,7 @@
 
 export(availableVars)
 export(availableVars.1D)
-export(calcLoad)
+export(calcMass)
 export(decomposeTS)
 export(loadLTERchlorophyll.north)
 export(loadLTERchlorophyll.south)

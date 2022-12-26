@@ -74,27 +74,27 @@ plotTimeseries.year(df.interpolated = df.ME$weeklyInterpolated, observations = d
 plotTimeseries.year(df.interpolated = df.ME$weeklyInterpolated, var = 'totpuf_sloh', chooseYear = 2008, legend.title = 'TP (µg/L)')
 ```
 
-## Calculate load at annual or weekly timescales
+## Calculate mass at annual or weekly timescales
 ```{r, eval = T, results = 'hide', warning = F, message = F}
-df.load.annual = calcLoad(df.ME$weeklyInterpolated,lakeAbr = 'ME', time.res = 'annual', conversion = 1e6)
+df.mass.annual = calcMass(df.ME$weeklyInterpolated,lakeAbr = 'ME', time.res = 'annual', conversion = 1e6)
 ```
 
 ## Example of plotting annual load 
 ```{r, eval = T, warning = F, message = F, fig.width = 7, fig.height= 4}
 library(ggplot2)
 
-ggplot(df.load.annual, aes(x = year, y = load)) +
+ggplot(df.mass.annual, aes(x = year, y = mass)) +
   geom_path() +
   geom_point() +
   ylab('TP (kg)') +
-  labs(title = 'Lake Mendota annual TP load', caption = 'Calculated from NTLlakeloads') +  
+  labs(title = 'Lake Mendota annual TP mass', caption = 'Calculated from NTLlakeloads') +  
   theme_bw(base_size = 10) +
   theme(axis.title.x = element_blank())
 ```
 
-## Decompose weekly load timeseries to analyse trends and seasonality
+## Decompose weekly mass timeseries to analyse trends and seasonality
 ```{r, eval = T, warning = F, message = F}
-df.load = calcLoad(df.ME$weeklyInterpolated,lakeAbr = 'ME', time.res = 'weekly', conversion = 1e6)
+df.mass = calcMass(df.ME$weeklyInterpolated,lakeAbr = 'ME', time.res = 'weekly', conversion = 1e6)
 
-decomposeTS(df.load, lakeAbr = 'ME', var = 'totpuf_sloh')
+decomposeTS(df.mass, lakeAbr = 'ME', var = 'totpuf_sloh')
 ```

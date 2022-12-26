@@ -2,17 +2,17 @@
 % Please edit documentation in R/decomposeTS.R
 \name{decomposeTS}
 \alias{decomposeTS}
-\title{Decompose timeseries from weekly load data}
+\title{Decompose timeseries from weekly mass data}
 \usage{
-decomposeTS(df.load, lakeAbr, var)
+decomposeTS(df.mass, lakeAbr, var)
 }
 \arguments{
-\item{df.load}{dataframe of weekly load estimates}
+\item{df.mass}{dataframe of weekly mass estimates}
 
 \item{lakeAbr}{Lake identification, string}
 
 \item{var}{Variable of interest. Use availableVars() to see available variables.}
 }
 \description{
-Input load data
+Input mass data
 }

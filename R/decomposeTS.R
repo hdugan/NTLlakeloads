@@ -1,29 +1,29 @@
-#' Decompose timeseries from weekly load data
+#' Decompose timeseries from weekly mass data
 #'
-#' Input load data
+#' Input mass data
 #'
-#' @param df.load dataframe of weekly load estimates
+#' @param df.mass dataframe of weekly mass estimates
 #' @param lakeAbr Lake identification, string
 #' @param var Variable of interest. Use availableVars() to see available variables.
 #' @import dplyr
 #' @importFrom tidyr pivot_longer
 #' @importFrom patchwork plot_annotation
 #' @export
-decomposeTS <- function(df.load, lakeAbr, var) {
+decomposeTS <- function(df.mass, lakeAbr, var) {
 
   ## weights for moving avg
   fltr <- c(1/2, rep(1, times = 51), 1/2)/52
   ## create a time series (ts) object from the var data
-  var.load <- ts(data = df.load$load, frequency = 52, start = c(df.load$year[1],
-                                                                df.load$week[1]))
+  var.mass <- ts(data = df.mass$mass, frequency = 52, start = c(df.mass$year[1],
+                                                                df.mass$week[1]))
   ## estimate of trend
-  var.trend = stats::filter(var.load, filter = fltr, method = 'convo', sides = 2)
+  var.trend = stats::filter(var.mass, filter = fltr, method = 'convo', sides = 2)
 
   ## plot the trend
   # plot.ts(var.trend, ylab = "Trend", cex = 1)
 
   ## seasonal effect over time
-  var.1T <- var.load - var.trend
+  var.1T <- var.mass - var.trend
   # plot.ts(var.1T, ylab = "Seasonal effect", xlab = "Week", cex = 1)
 
   ## We can obtain the overall seasonal effect by averaging the estimates
@@ -54,16 +54,16 @@ decomposeTS <- function(df.load, lakeAbr, var) {
 
   # The last step in completing our full decomposition model is obtaining the random errors which we can get via simple subtraction
   ## random errors over time
-  var.err <- var.load - var.trend - var.seas
+  var.err <- var.mass - var.trend - var.seas
   # Now that we have all 3 of our model components, let’s plot them together with the observed data
 
   ## plot the obs ts, trend & seasonal effect
-  # plot(cbind(var.load, var.trend, var.seas, var.err), main = "", yax.flip = TRUE)
+  # plot(cbind(var.mass, var.trend, var.seas, var.err), main = "", yax.flip = TRUE)
 
-  output = as.data.frame(cbind(var.load, var.trend, var.seas, var.err)) %>%
-    mutate(date = df.load$date) %>%
+  output = as.data.frame(cbind(var.mass, var.trend, var.seas, var.err)) %>%
+    mutate(date = df.mass$date) %>%
     pivot_longer(cols = 1:4, names_to = 'decompose')
-  output$decompose = factor(output$decompose, levels=c('var.load', 'var.trend', 'var.seas', 'var.err'))
+  output$decompose = factor(output$decompose, levels=c('var.mass', 'var.trend', 'var.seas', 'var.err'))
 
   pY = ggplot(output) + geom_line(aes(x = date, y = value), color = 'red4') +
     facet_wrap(vars(decompose),scales = 'free', nrow = 4) +
@@ -77,8 +77,8 @@ decomposeTS <- function(df.load, lakeAbr, var) {
   return(output)
 
   #### Alternative easier method #####
-  ## decomposition of load data
-  # var.decomp <- decompose(var.load)
+  ## decomposition of mass data
+  # var.decomp <- decompose(var.mass)
   ## plot the obs ts, trend & seasonal effect
   # plot(var.decomp, yax.flip = TRUE)
 
