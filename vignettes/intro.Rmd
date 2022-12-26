@@ -1,5 +1,5 @@
 ---
-title: "Intro to NTL lake loads"
+title: "Intro to NTLlakeloads"
 author: 'Hilary Dugan'
 date: '2020-04-27'
 output: rmarkdown::html_vignette
@@ -18,46 +18,77 @@ knitr::opts_chunk$set(
 
 ```{r setup}
 library(NTLlakeloads)
+library(tidyverse)
 ```
 
 ```{r, include=FALSE}
 devtools::load_all(".")
 ```
 
-```{r get LTER data}
-# Get LTER data. 
-LTERtemp = loadLTERtemp() # Download all LTER data from EDI
-LTERnutrients = loadLTERnutrients() # Download all LTER data from EDI
-LTERions = loadLTERions() # Download all LTER data from EDI
+## Get LTER data
+```{r getLTERdata, eval = T, warning = F, message = F}
+# Load NTL datasets
+LTERtemp = loadLTERtemp() # Download NTL LTER data from EDI
+LTERnutrients = loadLTERnutrients() # Download NTL LTER data from EDI
+LTERions = loadLTERions() # Download NTL LTER data from EDI
+LTERsecchi = loadLTERsecchi() # Download NTL LTER data from EDI
+```
 
-# Check available variables
+### Additionally, these datasets can be viewed at
+### https://github.com/hdugan/NTLviewer
+
+## Variables available for plotting
+```{r, eval = FALSE}
+# Available variables
 availableVars()
+
+# Available variables that are not depth-discrete. Used with weeklyInterpolate.1D.
+availableVars.1D()
 ```
 
-```{r InterpolateWeekly, warning=FALSE, fig.width = 7, fig.height = 7}
-# Interpolate weekly (print output figures)
-df.ME = weeklyInterpolate(lakeAbr = 'ME', var = 'totpuf_sloh', maxdepth = 24, 
-                          constrainMethod = 'zero', setThreshold = 0.1, printFigs = TRUE)
+## Interpolate weekly total phosphorus data for Lake Mendota
+```{r, eval = T, warning = F, message = F, results = 'hide'}
+# printFigs = TRUE to output series of interpolated profiles (but slower)
+# See help file for parameter descripts
+df.ME = weeklyInterpolate(lakeAbr = 'ME', var = 'totpuf_sloh', dataset = LTERnutrients, maxdepth = 24, 
+                          constrainMethod = 'zero', setThreshold = 0.1, printFigs = F)
 ```
 
-```{r plot, warning = F, fig.width = 7, fig.height = 5}
-# Plotting timeseries
-plotTimeseries(df.ME$weeklyInterpolated, var = 'totpuf_sloh')
-
-# Plot specific year
-plotTimeseries.year(df.ME$weeklyInterpolated, df.ME$observations,  var = 'totpuf_sloh', chooseYear = 2018)
+## Plotting entire timeseries 
+```{r, eval = T, warning = F, message = F, fig.width = 7}
+plotTimeseries(df.interpolated = df.ME$weeklyInterpolated, var = 'totpuf_sloh')
 ```
 
-```{r load, warning = F}
-# Calculate load at either weekly or annual timescale
-df.load = calcLoad(df.ME$weeklyInterpolated,lakeAbr = 'ME', time.res = 'weekly')
-df.load.annual = calcLoad(df.ME$weeklyInterpolated,lakeAbr = 'ME', time.res = 'annual')
+## Plot specific year with observed data
+```{r, eval = T, warning = F, message = F, fig.width = 7 }
+# With observations
+plotTimeseries.year(df.interpolated = df.ME$weeklyInterpolated, observations = df.ME$observations,  var = 'totpuf_sloh', chooseYear = 2008)
+
+# Without observations, but adding legend title 
+plotTimeseries.year(df.interpolated = df.ME$weeklyInterpolated, var = 'totpuf_sloh', chooseYear = 2008, legend.title = 'TP (µg/L)')
 ```
 
-```{r decompse, warning = F, fig.width = 7, fig.height = 6}
-# Decompose timeseries load
-decomposeTS(df.load, lakeAbr = 'ME', var = 'totpuf_sloh')
+## Calculate mass at annual or weekly timescales
+```{r, eval = T, results = 'hide', warning = F, message = F}
+df.mass.annual = calcMass(df.ME$weeklyInterpolated,lakeAbr = 'ME', time.res = 'annual', conversion = 1e6)
 ```
 
+## Example of plotting annual mass 
+```{r, eval = T, warning = F, message = F, fig.width = 7, fig.height= 4}
+library(ggplot2)
 
+ggplot(df.mass.annual, aes(x = year, y = mass)) +
+  geom_path() +
+  geom_point() +
+  ylab('TP (kg)') +
+  labs(title = 'Lake Mendota annual TP mass', caption = 'Calculated from NTLlakeloads') +  
+  theme_bw(base_size = 10) +
+  theme(axis.title.x = element_blank())
+```
 
+## Decompose weekly mass timeseries to analyse trends and seasonality
+```{r, eval = T, warning = F, message = F}
+df.mass = calcMass(df.ME$weeklyInterpolated,lakeAbr = 'ME', time.res = 'weekly', conversion = 1e6)
+
+decomposeTS(df.mass, lakeAbr = 'ME', var = 'totpuf_sloh')
+```

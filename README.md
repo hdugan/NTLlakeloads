@@ -3,7 +3,7 @@
 
 ## Why?
 
-A better way of interpolating nutrient data in the lakes. Both for load
+A better way of interpolating nutrient data in the lakes. Both for mass
 calculations and for data visualization.
 
 We often linearly interpolate water quality observations between
@@ -13,6 +13,13 @@ Here, I provide functions to interpolate water quality observations
 leveraging information on lake stratification from temperature data.
 Often there is more temperature data than water quality data, which
 results in better interpolation.
+
+The functions in this package allow you to: \* Load NTL-LTER data from
+EDI \* Interpolate water quality data to a weekly, 1-m interval,
+dataframe \* Plot data \* Calculate weekly mass and mean annual mass
+
+Why is it called lakeloads? Mass cacluations can be used to infer
+loading.
 
 ## Installation
 
@@ -82,34 +89,34 @@ plotTimeseries.year(df.interpolated = df.ME$weeklyInterpolated, var = 'totpuf_sl
 
 ![](man/figures/README-unnamed-chunk-5-2.png)<!-- -->
 
-## Calculate load at annual or weekly timescales
+## Calculate mass at annual or weekly timescales
 
 ``` r
-df.load.annual = calcLoad(df.ME$weeklyInterpolated,lakeAbr = 'ME', time.res = 'annual', conversion = 1e6)
+df.mass.annual = calcMass(df.ME$weeklyInterpolated,lakeAbr = 'ME', time.res = 'annual', conversion = 1e6)
 ```
 
-## Example of plotting annual load
+## Example of plotting annual mass
 
 ``` r
 library(ggplot2)
 
-ggplot(df.load.annual, aes(x = year, y = load)) +
+ggplot(df.mass.annual, aes(x = year, y = mass)) +
   geom_path() +
   geom_point() +
   ylab('TP (kg)') +
-  labs(title = 'Lake Mendota annual TP load', caption = 'Calculated from NTLlakeloads') +  
+  labs(title = 'Lake Mendota mean annual TP mass', caption = 'Calculated from NTLlakeloads') +  
   theme_bw(base_size = 10) +
   theme(axis.title.x = element_blank())
 ```
 
 ![](man/figures/README-unnamed-chunk-7-1.png)<!-- -->
 
-## Decompose weekly load timeseries to analyse trends and seasonality
+## Decompose weekly mass timeseries to analyse trends and seasonality
 
 ``` r
-df.load = calcLoad(df.ME$weeklyInterpolated,lakeAbr = 'ME', time.res = 'weekly', conversion = 1e6)
+df.mass = calcMass(df.ME$weeklyInterpolated,lakeAbr = 'ME', time.res = 'weekly', conversion = 1e6)
 
-decomposeTS(df.load, lakeAbr = 'ME', var = 'totpuf_sloh')
+decomposeTS(df.mass, lakeAbr = 'ME', var = 'totpuf_sloh')
 ```
 
 ![](man/figures/README-unnamed-chunk-8-1.png)<!-- -->
@@ -117,14 +124,14 @@ decomposeTS(df.load, lakeAbr = 'ME', var = 'totpuf_sloh')
     #> # A tibble: 4,904 × 3
     #>    date       decompose value
     #>    <date>     <fct>     <dbl>
-    #>  1 1995-05-09 var.load   43.1
+    #>  1 1995-05-09 var.mass   43.1
     #>  2 1995-05-09 var.trend  NA  
     #>  3 1995-05-09 var.seas  -13.2
     #>  4 1995-05-09 var.err    NA  
-    #>  5 1995-05-16 var.load   44.0
+    #>  5 1995-05-16 var.mass   44.0
     #>  6 1995-05-16 var.trend  NA  
     #>  7 1995-05-16 var.seas  -13.6
     #>  8 1995-05-16 var.err    NA  
-    #>  9 1995-05-23 var.load   45.0
+    #>  9 1995-05-23 var.mass   45.0
     #> 10 1995-05-23 var.trend  NA  
     #> # … with 4,894 more rows

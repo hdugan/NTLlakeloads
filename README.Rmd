@@ -14,9 +14,17 @@ knitr::opts_chunk$set(
 ```
 
 ## Why?
-A better way of interpolating nutrient data in the lakes. Both for load calculations and for data visualization. 
+A better way of interpolating nutrient data in the lakes. Both for mass calculations and for data visualization. 
 
 We often linearly interpolate water quality observations between observation depths. This is typically fine if a lake is well mixed, but if it's stratified it introduces a lot of error around the thermocline. Here, I provide functions to interpolate water quality observations leveraging information on lake stratification from temperature data. Often there is more temperature data than water quality data, which results in better interpolation. 
+
+The functions in this package allow you to:
+* Load NTL-LTER data from EDI
+* Interpolate water quality data to a weekly, 1-m interval, dataframe
+* Plot data
+* Calculate weekly mass and mean annual mass
+
+Why is it called lakeloads? Mass cacluations can be used to infer loading. 
 
 ## Installation
 You can install NTLlakeloads from github using devtools:
@@ -79,7 +87,7 @@ plotTimeseries.year(df.interpolated = df.ME$weeklyInterpolated, var = 'totpuf_sl
 df.mass.annual = calcMass(df.ME$weeklyInterpolated,lakeAbr = 'ME', time.res = 'annual', conversion = 1e6)
 ```
 
-## Example of plotting annual load 
+## Example of plotting annual mass 
 ```{r, eval = T, warning = F, message = F, fig.width = 7, fig.height= 4}
 library(ggplot2)
 
@@ -87,7 +95,7 @@ ggplot(df.mass.annual, aes(x = year, y = mass)) +
   geom_path() +
   geom_point() +
   ylab('TP (kg)') +
-  labs(title = 'Lake Mendota annual TP mass', caption = 'Calculated from NTLlakeloads') +  
+  labs(title = 'Lake Mendota mean annual TP mass', caption = 'Calculated from NTLlakeloads') +  
   theme_bw(base_size = 10) +
   theme(axis.title.x = element_blank())
 ```
