@@ -3,16 +3,19 @@
 #'
 #' @param df.interpolated dataframe of weekly interpolated data. Output of weeklyInterpolate()
 #' @param var Variable of interest. Use availableVars() to see available variables.
+#' @param binsize Size of legend bins. Defaults to 1/20th of maximum value. 
 #' @param saveFig If TRUE, saves a png to the working directory (default = FALSE)
 #' @param legend.title Choice to specify legend title
 #' @import ggplot2
 #' @import dplyr
 #' @import lubridate
 #' @export
-plotTimeseries <- function(df.interpolated, var, legend.title = NULL, saveFig = FALSE) {
+plotTimeseries <- function(df.interpolated, var, binsize = NULL, legend.title = NULL, saveFig = FALSE) {
 
-  binsize = signif(max(df.interpolated$var,na.rm = T)/20,1)
-
+  if (!exists('binsize')){
+    binsize = signif(max(df.interpolated$var,na.rm = T)/20,1)
+  }
+  
   pY = ggplot(df.interpolated, aes(x = date, y = depth, z = var)) +
     geom_contour_filled(aes(fill = after_stat(level)), alpha = 0.9, binwidth = binsize) +
     scale_fill_viridis_d(name = var) +
@@ -42,23 +45,23 @@ plotTimeseries <- function(df.interpolated, var, legend.title = NULL, saveFig = 
 #' @param observations To plot observed data, provide a dataframe of observed data. Output of weeklyInterpolate().  
 #' If NULL (default) no points plotted 
 #' @param chooseYear year of interest
-#' @param limits range for color scale
+#' @param binsize Size of legend bins. Defaults to 1/20th of maximum value. 
 #' @param legend.title Choice to specify legend title
 #' @param saveFig If TRUE, saves a png to the working directory (default = FALSE)
 #' @import ggplot2
 #' @export
-plotTimeseries.year <- function(df.interpolated, observations = NULL, var, chooseYear, legend.title = NULL, saveFig = FALSE) {
+plotTimeseries.year <- function(df.interpolated, observations = NULL, var, chooseYear, binsize = NULL, legend.title = NULL, saveFig = FALSE) {
 
-  binsize = signif(max(df.interpolated$var,na.rm = T)/20,1)
-
-
+  if (!exists('binsize')){
+    binsize = signif(max(df.interpolated$var,na.rm = T)/20,1)
+  }
+  
   if(is.null(observations)) {
     pY = ggplot(df.interpolated, aes(x = date, y = depth, z = var)) +
       geom_contour_filled(aes(fill = after_stat(level)), alpha = 0.9, binwidth = binsize) +
       scale_fill_viridis_d(name = var) +
       guides(fill = guide_colorsteps(barheight = unit(6, "cm"))) +
-      ylab('Dpeth (m)') +
-      # coord_cartesian(xlim = as.Date(c(paste0(chooseYear,'-01-01'), paste0(chooseYear,'-12-31')))) +
+      ylab('Depth (m)') +
       scale_y_reverse(expand = expansion(0)) +
       scale_x_date(expand = expansion(0), 
                    limits = c(as.Date(paste0(chooseYear,'-01-01')), as.Date(paste0(chooseYear,'-12-31')))) +
@@ -72,7 +75,7 @@ plotTimeseries.year <- function(df.interpolated, observations = NULL, var, choos
     filter(year(sampledate) == chooseYear)
     
   pY = ggplot(df.interpolated, aes(x = date, y = depth, z = var)) +
-    geom_contour_filled(aes(fill = stat(level)), alpha = 0.9, binwidth = binsize) +
+    geom_contour_filled(aes(fill = after_stat(level)), alpha = 0.9, binwidth = binsize) +
     scale_fill_viridis_d(name = var) +
     guides(fill = guide_colorsteps(barheight = unit(6, "cm"))) +
     geom_point(data = obsY, aes(x = sampledate, y = depth), size = 0.5) +

@@ -4,12 +4,20 @@
 \alias{plotTimeseries}
 \title{Plot interpolate heatmap of entire timeseries}
 \usage{
-plotTimeseries(df.interpolated, var, legend.title = NULL, saveFig = FALSE)
+plotTimeseries(
+  df.interpolated,
+  var,
+  binsize = NULL,
+  legend.title = NULL,
+  saveFig = FALSE
+)
 }
 \arguments{
 \item{df.interpolated}{dataframe of weekly interpolated data. Output of weeklyInterpolate()}
 
 \item{var}{Variable of interest. Use availableVars() to see available variables.}
+
+\item{binsize}{Size of legend bins. Defaults to 1/20th of maximum value.}
 
 \item{legend.title}{Choice to specify legend title}
 

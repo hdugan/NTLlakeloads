@@ -9,6 +9,7 @@ plotTimeseries.year(
   observations = NULL,
   var,
   chooseYear,
+  binsize = NULL,
   legend.title = NULL,
   saveFig = FALSE
 )
@@ -23,11 +24,11 @@ If NULL (default) no points plotted}
 
 \item{chooseYear}{year of interest}
 
+\item{binsize}{Size of legend bins. Defaults to 1/20th of maximum value.}
+
 \item{legend.title}{Choice to specify legend title}
 
 \item{saveFig}{If TRUE, saves a png to the working directory (default = FALSE)}
-
-\item{limits}{range for color scale}
 }
 \description{
 Plot interpolate heatmap of single year

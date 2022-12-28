@@ -48,8 +48,7 @@ LTERions = loadLTERions() # Download NTL LTER data from EDI
 LTERsecchi = loadLTERsecchi() # Download NTL LTER data from EDI
 ```
 
-### Additionally, these datasets can be viewed at
-### https://github.com/hdugan/NTLviewer
+### Additionally, these datasets can be viewed at: https://github.com/hdugan/NTLviewer
 
 ## Variables available for plotting
 ```{r, eval = FALSE}
@@ -61,9 +60,10 @@ availableVars.1D()
 ```
 
 ## Interpolate weekly total phosphorus data for Lake Mendota
-```{r, eval = T, warning = F, message = F, results = 'hide'}
+```{r, eval = T, warning = F, message = F, results = 'hide', cache=TRUE}
 # printFigs = TRUE to output series of interpolated profiles (but slower)
-# See help file for parameter descripts
+# See help file for parameter descriptions
+# 
 df.ME = weeklyInterpolate(lakeAbr = 'ME', var = 'totpuf_sloh', dataset = LTERnutrients, maxdepth = 24, 
                           constrainMethod = 'zero', setThreshold = 0.1, printFigs = F)
 ```
@@ -78,13 +78,28 @@ plotTimeseries(df.interpolated = df.ME$weeklyInterpolated, var = 'totpuf_sloh')
 # With observations
 plotTimeseries.year(df.interpolated = df.ME$weeklyInterpolated, observations = df.ME$observations,  var = 'totpuf_sloh', chooseYear = 2008)
 
-# Without observations, but adding legend title 
-plotTimeseries.year(df.interpolated = df.ME$weeklyInterpolated, var = 'totpuf_sloh', chooseYear = 2008, legend.title = 'TP (µg/L)')
+# Without observations, but adding legend title and decreasing binsize 
+plotTimeseries.year(df.interpolated = df.ME$weeklyInterpolated, var = 'totpuf_sloh', binsize = 0.06,
+                    chooseYear = 2016, legend.title = 'TP (mg/L)')
+```
+
+## Customize plots
+Since these functions return a ggplot, they can be additionally customized with ggplot options. For example: 
+
+```{r, eval = T, warning = F, message = F, fig.width = 7, fig.height = 4}
+library(MetBrewer)
+plotTimeseries.year(df.interpolated = df.ME$weeklyInterpolated,
+                    var = 'totpuf_sloh', chooseYear = 2015, binsize = 0.1, legend.title = 'TP (mg/L)') +
+  scale_fill_manual(values=met.brewer("Hokusai2", 7)) + # override color default
+  geom_point(data = df.ME$observations, aes(x = sampledate, y = depth), size = 1, fill = 'gold', shape = 22, stroke = 0.2) + # sampling observations
+  labs(title = 'Lake Mendota, total phosphorus 2015', x = 'Date') +
+  theme_minimal(base_size = 10)
 ```
 
 ## Calculate mass at annual or weekly timescales
 ```{r, eval = T, results = 'hide', warning = F, message = F}
-df.mass.annual = calcMass(df.ME$weeklyInterpolated,lakeAbr = 'ME', time.res = 'annual', conversion = 1e6)
+# Conversion from g to kg
+df.mass.annual = calcMass(df.ME$weeklyInterpolated,lakeAbr = 'ME', time.res = 'annual', conversion = 1e3)
 ```
 
 ## Example of plotting annual mass 
@@ -102,7 +117,7 @@ ggplot(df.mass.annual, aes(x = year, y = mass)) +
 
 ## Decompose weekly mass timeseries to analyse trends and seasonality
 ```{r, eval = T, warning = F, message = F}
-df.mass = calcMass(df.ME$weeklyInterpolated,lakeAbr = 'ME', time.res = 'weekly', conversion = 1e6)
+df.mass = calcMass(df.ME$weeklyInterpolated,lakeAbr = 'ME', time.res = 'weekly', conversion = 1e3)
 
 decomposeTS(df.mass, lakeAbr = 'ME', var = 'totpuf_sloh')
 ```
