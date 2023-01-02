@@ -1,7 +1,7 @@
 Package: NTLlakeloads
 Type: Package
 Title: Tools for the analysis of long-term NTL-LTER data 
-Version: 0.1.0
+Version: 1.0.0
 Date: 2022-12-25
 Author: Hilary Dugan
 Maintainer: Hilary Dugan <hdugan@wisc.edu>
