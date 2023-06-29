@@ -335,7 +335,8 @@ loadLTERzooplankton.south <- function() {
 # samples per lake-year are identified and counted. Sampling Frequency:
 # fortnightly during ice-free season - every 6 weeks during ice-covered season.
 # Number of sites: 7.
-
+#'@importFrom readr read_csv
+#'@export
 loadLTERzooplankton.north <- function() {
   # https://portal.edirepository.org/nis/mapbrowse?packageid=knb-lter-ntl.37.37
   
