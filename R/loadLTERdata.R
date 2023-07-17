@@ -16,13 +16,7 @@ loadLTERnutrients <- function() {
   infile1 <- tempfile()
   download.file(inUrl1, infile1, method="curl")
 
-  LTERnutrients <- read_csv(infile1, skip=1, quote ='"',guess_max = 20000, col_names=c(
-    "lakeid","year4","daynum","sampledate","depth","rep","sta","event","ph","phair","alk","dic","tic","doc","toc",
-    "no3no2","no2","nh4","totnf","totnuf","totpf","totpuf","drsif","brsif","brsiuf","tpm","totnuf_sloh","no3no2_sloh",
-    "nh4_sloh","kjdl_n_sloh","totpuf_sloh","drp_sloh","drsif_sloh","flagdepth","flagph","flagphair","flagalk","flagdic",
-    "flagtic","flagdoc","flagtoc","flagno3no2","flagno2","flagnh4","flagtotnf","flagtotnuf","flagtotpf","flagtotpuf",
-    "flagdrsif","flagbrsif","flagbrsiuf","flagtpm","flagtotnuf_sloh","flagno3no2_sloh","flagnh4_sloh","flagkjdl_n_sloh",
-    "flagtotpuf_sloh","flagdrp_sloh","flagdrsif_sloh"))
+  LTERnutrients <- read_csv(infile1)
 }
 
 #' Load LTER ion data from web
@@ -43,9 +37,7 @@ loadLTERions <- function() {
   infile2 <- tempfile()
   download.file(inUrl2,infile2,method="curl")
 
-  LTERions <-read_csv(infile2, skip=1, quote ='"',guess_max = 20000, col_names=c(
-    "lakeid","year4","daynum","sampledate","depth","rep","sta","event","cl","so4","ca","mg","na","k","fe","mn",
-    "cond","flagcl","flagso4","flagca","flagmg","flagna","flagk","flagfe","flagmn","flagcond"))
+  LTERions <- read_csv(infile2)
 }
 #' Load LTER phyical limnology data from web
 #'
@@ -64,9 +56,7 @@ loadLTERtemp <- function() {
   infile3 <- tempfile()
   download.file(inUrl3,infile3,method="curl")
 
-  LTERtemp <-read_csv(infile3, skip=1, quote ='"',guess_max = 100000, col_names=c(
-    "lakeid" ,"year4" ,"daynum" ,"sampledate" ,"depth" ,"rep" ,"sta" ,"event" ,"wtemp" ,"o2" ,"o2sat" ,"deck" ,
-    "light" ,"frlight" ,"flagdepth" ,"flagwtemp" ,"flago2" ,"flago2sat" ,"flagdeck" ,"flaglight" ,"flagfrlight"))
+  LTERtemp <- read_csv(infile3)
 }
 
 #'Load LTER chlorophyll data from web
@@ -91,9 +81,7 @@ loadLTERchlorophyll.north <- function() {
   infile1 <- tempfile()
   download.file(inUrl1,infile1,method="curl")
 
-  LTERchlorophyll <-read_csv(infile1, skip=1, quote ='"',guess_max = 100000, col_names=c(
-    "lakeid", "year4", "daynum","sampledate",
-    "rep","sta","depth","chlor","phaeo", "flagchlor","flagphaeo"))
+  LTERchlorophyll <- read_csv(infile1)
 }
 
 #' Load LTER chlorophyll data from web
@@ -122,10 +110,7 @@ loadLTERchlorophyll.south <- function() {
   infile1 <- tempfile()
   download.file(inUrl1,infile1,method="curl")
 
-  LTERchlorophyll <-read_csv(infile1, skip=1, quote ='"',guess_max = 100000, col_names=c(
-    "lakeid", "year4","sampledate",
-    "depth_range_m","rep","tri_chl_spec", "mono_chl_spec",
-    "phaeo_spec","uncorrect_chl_fluor","correct_chl_fluor","phaeo_fluor","flag_spec","flag_fluor"))
+  LTERchlorophyll <- read_csv(infile1)
 
 }
 
@@ -145,9 +130,7 @@ loadLTERlight <- function() {
   infile1 <- tempfile()
   download.file(inUrl1,infile1,method="curl")
 
-  LTERlight <-read_csv(infile1, skip=1, quote ='"',guess_max = 100000, col_names=c(
-    "lakeid", "year4", "daynum","sampledate",
-    "extcoef","lightext_flag","comments"))
+  LTERlight <- read_csv(infile1)
 }
 
 #' Load LTER secchi data from web
@@ -177,10 +160,7 @@ loadLTERsecchi <- function() {
   infile1 <- tempfile()
   download.file(inUrl1,infile1,method="curl")
 
-  LTERsecchi <-read_csv(infile1, skip=1, quote ='"',guess_max = 100000, col_names=c(
-    "lakeid", "year4", "daynum","sampledate",
-    "sta","secview","secnview","timeon",
-    "timeoff","airtemp","windir", "windspd","waveht", "cloud","ice"))
+  LTERsecchi <- read_csv(infile1)
 }
 
 #' Load LTER snow data from web
@@ -203,10 +183,7 @@ loadLTERsnow <- function() {
   infile1 <- tempfile()
   download.file(inUrl1,infile1,method="curl")
 
-  LTERsnow <- read_csv(infile1, skip=1, quote ='"',guess_max = 100000, col_names=c(
-    "lakeid", "year4", "daynum","sampledate",
-    "sta", "nsnow", "avsnow", "sdsnow", "wlevel", "totice", "nice","whiteice","blueice")) %>%
-     mutate(sampledate = as.Date(strptime(sampledate, '%Y-%m-%d')))
+  LTERsnow <- read_csv(infile1)
 }
 
 #' Load LTER phytoplankton from web
@@ -262,10 +239,7 @@ loadLTERphytoplankton <- function() {
   infile1 <- tempfile()
   download.file(inUrl1,infile1,method="curl")
 
-  LTERphyto <- read_csv(infile1, skip=1, quote ='"',guess_max = 100000, col_names=c(
-    "lakeid","year4","sampledate","sta","depth_range","division","taxa_name","gald",
-    "cells_per_nu","nu_per_ml","cells_per_ml","biovolume_conc","biomass_conc",
-    "relative_total_biovolume","genus"))
+  LTERphyto <- read_csv(infile1)
 }
 
 #'Load LTER zooplankton from web
@@ -317,10 +291,7 @@ loadLTERzooplankton.south <- function() {
   infile1 <- tempfile()
   download.file(inUrl1,infile1,method="curl")
 
-  LTERzoops <- read_csv(infile1, skip=1, quote ='"',guess_max = 100000, col_names=c(
-    "lakeid","year4","sample_date","station",
-    "towdepth","species_code","species_name","density","individuals_measured","avg_length")) %>%
-    rename(sampledate = sample_date)
+  LTERzoops <- read_csv(infile1)
 }
 
 # Samples of native zooplankton are collected from the seven primary northern
@@ -348,8 +319,5 @@ loadLTERzooplankton.north <- function() {
   infile1 <- tempfile()
   download.file(inUrl1,infile1,method="curl")
   
-  LTERzoops <- read_csv(infile1, skip=1, quote ='"',guess_max = 100000, col_names=c(
-    "lakeid","year4","sample_date","station",
-    "species_code","species_name","density","individuals_measured","avg_length")) %>%
-    rename(sampledate = sample_date)
+  LTERzoops <- read_csv(infile1)
 }
