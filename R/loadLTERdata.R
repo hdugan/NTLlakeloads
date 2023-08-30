@@ -4,19 +4,21 @@
 #'
 #' @importFrom readr read_csv
 #' @importFrom utils download.file
+#' @import EDIutils 
 #' @export
 loadLTERnutrients <- function() {
-  # https://portal.edirepository.org/nis/mapbrowse?scope=knb-lter-ntl&identifier=1&revision=59
-  
-  # Package ID: knb-lter-ntl.1.59 Cataloging System:https://pasta.edirepository.org.
+  # Package ID: knb-lter-ntl.1.60 Cataloging System:https://pasta.edirepository.org.
   # Data set title: North Temperate Lakes LTER:
   # Chemical Limnology of Primary Study Lakes: Nutrients, pH and Carbon 1981 - current
   
-  inUrl1  <- "https://pasta.lternet.edu/package/data/eml/knb-lter-ntl/1/59/0ff1fd13116d6097376e3745194cdc5f" 
-  infile1 <- tempfile()
-  download.file(inUrl1, infile1, method="curl")
-
-  LTERnutrients <- read_csv(infile1)
+  # inUrl1  <- "https://pasta.lternet.edu/package/data/eml/knb-lter-ntl/1/60/0ff1fd13116d6097376e3745194cdc5f"  
+  # LTERnutrients = read_csv(inUrl1)
+  
+  revision = list_data_package_revisions(scope = 'knb-lter-ntl', identifier = "1", filter = "newest")
+  packageid = paste0('knb-lter-ntl.1.', revision)
+  res = read_data_entity_names(packageid)
+  raw = read_data_entity(packageId = packageid, entityId = res$entityId[1])
+  LTERnutrients = read_csv(file = raw)
 }
 
 #' Load LTER ion data from web
@@ -26,18 +28,18 @@ loadLTERnutrients <- function() {
 #' @importFrom readr read_csv
 #' @export
 loadLTERions <- function() {
-  # https://portal.edirepository.org/nis/mapbrowse?packageid=knb-lter-ntl.2.37
-  
-  # Package ID: knb-lter-ntl.2.37 Cataloging System:https://pasta.edirepository.org.
+  # Package ID: knb-lter-ntl.2.38 Cataloging System:https://pasta.edirepository.org.
   # Data set title: North Temperate Lakes LTER:
   # Chemical Limnology of Primary Study Lakes: Major Ions 1981 - current
-
-  inUrl2  <- "https://pasta.lternet.edu/package/data/eml/knb-lter-ntl/2/37/0701a84081989bb1ff37d621a6c4560a" 
   
-  infile2 <- tempfile()
-  download.file(inUrl2,infile2,method="curl")
-
-  LTERions <- read_csv(infile2)
+  # inUrl2  <- "https://pasta.lternet.edu/package/data/eml/knb-lter-ntl/2/38/0701a84081989bb1ff37d621a6c4560a"  
+  # LTERions = read_csv(inUrl2)
+  
+  revision = list_data_package_revisions(scope = 'knb-lter-ntl', identifier = "2", filter = "newest")
+  packageid = paste0('knb-lter-ntl.2.', revision)
+  res = read_data_entity_names(packageid)
+  raw = read_data_entity(packageId = packageid, entityId = res$entityId[1])
+  LTERions = read_csv(file = raw)
 }
 #' Load LTER phyical limnology data from web
 #'
@@ -46,17 +48,18 @@ loadLTERions <- function() {
 #' @importFrom readr read_csv
 #' @export
 loadLTERtemp <- function() {
-  # https://portal.edirepository.org/nis/mapbrowse?packageid=knb-lter-ntl.29.35
-  
   # Package ID: knb-lter-ntl.29.35 Cataloging System:https://pasta.edirepository.org.
   # Data set title: North Temperate Lakes LTER:
   # Physical Limnology of Primary Study Lakes 1981 - current
-
-  inUrl3  <- "https://pasta.lternet.edu/package/data/eml/knb-lter-ntl/29/35/03e232a1b362900e0f059859abe8eb97"
-  infile3 <- tempfile()
-  download.file(inUrl3,infile3,method="curl")
-
-  LTERtemp <- read_csv(infile3)
+  
+  # inUrl3  <- "https://pasta.lternet.edu/package/data/eml/knb-lter-ntl/29/35/03e232a1b362900e0f059859abe8eb97"
+  # LTERtemp = read_csv(inUrl3)
+  
+  revision = list_data_package_revisions(scope = 'knb-lter-ntl', identifier = "29", filter = "newest")
+  packageid = paste0('knb-lter-ntl.29.', revision)
+  res = read_data_entity_names(packageid)
+  raw = read_data_entity(packageId = packageid, entityId = res$entityId[1])
+  LTERtemp = read_csv(file = raw)
 }
 
 #'Load LTER chlorophyll data from web
@@ -76,12 +79,12 @@ loadLTERchlorophyll.north <- function() {
   
   # Package ID: knb-lter-ntl.35.32 Cataloging System:https://pasta.edirepository.org.
   # Data set title: North Temperate Lakes LTER: Chlorophyll - Trout Lake Area 1981 - current.
-
-  inUrl1  <- "https://pasta.lternet.edu/package/data/eml/knb-lter-ntl/35/32/50f9b5f93d0a0d47008147698fb413f3"
-  infile1 <- tempfile()
-  download.file(inUrl1,infile1,method="curl")
-
-  LTERchlorophyll <- read_csv(infile1)
+  
+  revision = list_data_package_revisions(scope = 'knb-lter-ntl', identifier = "35", filter = "newest")
+  packageid = paste0('knb-lter-ntl.35.', revision)
+  res = read_data_entity_names(packageid)
+  raw = read_data_entity(packageId = packageid, entityId = res$entityId[1])
+  LTERchlorophyll = read_csv(file = raw)
 }
 
 #' Load LTER chlorophyll data from web
@@ -106,11 +109,11 @@ loadLTERchlorophyll.south <- function() {
   
   # Package ID: knb-lter-ntl.38.28 Cataloging System:https://pasta.edirepository.org.
   # Data set title: North Temperate Lakes LTER: Chlorophyll - Madison Lakes Area 1995 - current.
-  inUrl1  <- "https://pasta.lternet.edu/package/data/eml/knb-lter-ntl/38/28/66796c3bc77617e7cc95c4b09d4995c5"
-  infile1 <- tempfile()
-  download.file(inUrl1,infile1,method="curl")
-
-  LTERchlorophyll <- read_csv(infile1)
+  revision = list_data_package_revisions(scope = 'knb-lter-ntl', identifier = "38", filter = "newest")
+  packageid = paste0('knb-lter-ntl.38.', revision)
+  res = read_data_entity_names(packageid)
+  raw = read_data_entity(packageId = packageid, entityId = res$entityId[1])
+  LTERchlorophyll = read_csv(file = raw)
 
 }
 
@@ -126,11 +129,11 @@ loadLTERlight <- function() {
   # Package ID: knb-lter-ntl.259.18 Cataloging System:https://pasta.edirepository.org.
   # Data set title: North Temperate Lakes LTER: Light Extinction - Trout Lake Area 1981 - current.
 
-  inUrl1  <- "https://pasta.lternet.edu/package/data/eml/knb-lter-ntl/259/18/6e9645b25882672e7316357890553e19" 
-  infile1 <- tempfile()
-  download.file(inUrl1,infile1,method="curl")
-
-  LTERlight <- read_csv(infile1)
+  revision = list_data_package_revisions(scope = 'knb-lter-ntl', identifier = "259", filter = "newest")
+  packageid = paste0('knb-lter-ntl.259.', revision)
+  res = read_data_entity_names(packageid)
+  raw = read_data_entity(packageId = packageid, entityId = res$entityId[1])
+  LTERlight = read_csv(file = raw)
 }
 
 #' Load LTER secchi data from web
@@ -156,11 +159,11 @@ loadLTERsecchi <- function() {
   # Package ID: knb-lter-ntl.31.32 Cataloging System:https://pasta.edirepository.org.
   # Data set title: North Temperate Lakes LTER: Secchi Disk Depth; Other Auxiliary Base Crew Sample Data 1981 - current.
 
-  inUrl1  <- "https://pasta.lternet.edu/package/data/eml/knb-lter-ntl/31/32/d01c782e0601d2217b94dd614444bd33"
-  infile1 <- tempfile()
-  download.file(inUrl1,infile1,method="curl")
-
-  LTERsecchi <- read_csv(infile1)
+  revision = list_data_package_revisions(scope = 'knb-lter-ntl', identifier = "31", filter = "newest")
+  packageid = paste0('knb-lter-ntl.31.', revision)
+  res = read_data_entity_names(packageid)
+  raw = read_data_entity(packageId = packageid, entityId = res$entityId[1])
+  LTERsecchi = read_csv(file = raw)
 }
 
 #' Load LTER snow data from web
@@ -179,11 +182,11 @@ loadLTERsnow <- function() {
   # Package ID: knb-lter-ntl.34.34 Cataloging System:https://pasta.edirepository.org.
   # Data set title: North Temperate Lakes LTER: Snow and Ice Depth 1982 - current.
 
-  inUrl1  <- "https://pasta.lternet.edu/package/data/eml/knb-lter-ntl/34/34/9be297624fc843fbd41f29b161150946" 
-  infile1 <- tempfile()
-  download.file(inUrl1,infile1,method="curl")
-
-  LTERsnow <- read_csv(infile1)
+  revision = list_data_package_revisions(scope = 'knb-lter-ntl', identifier = "34", filter = "newest")
+  packageid = paste0('knb-lter-ntl.34.', revision)
+  res = read_data_entity_names(packageid)
+  raw = read_data_entity(packageId = packageid, entityId = res$entityId[1])
+  LTERsnow = read_csv(file = raw)
 }
 
 #' Load LTER phytoplankton from web
@@ -235,11 +238,11 @@ loadLTERphytoplankton <- function() {
   # Package ID: knb-lter-ntl.88.31 Cataloging System:https://pasta.edirepository.org.
   # Data set title: North Temperate Lakes LTER: Phytoplankton - Madison Lakes Area 1995 - current
 
-  inUrl1  <- "https://pasta.lternet.edu/package/data/eml/knb-lter-ntl/88/31/f2de15b2fff6ae962a04c150c0a1c510"
-  infile1 <- tempfile()
-  download.file(inUrl1,infile1,method="curl")
-
-  LTERphyto <- read_csv(infile1)
+  revision = list_data_package_revisions(scope = 'knb-lter-ntl', identifier = "88", filter = "newest")
+  packageid = paste0('knb-lter-ntl.88.', revision)
+  res = read_data_entity_names(packageid)
+  raw = read_data_entity(packageId = packageid, entityId = res$entityId[1])
+  LTERphyto = read_csv(file = raw)
 }
 
 #'Load LTER zooplankton from web
@@ -287,11 +290,13 @@ loadLTERzooplankton.south <- function() {
   # Package ID: knb-lter-ntl.90.33 Cataloging System:https://pasta.edirepository.org.
   # Data set title: North Temperate Lakes LTER: Zooplankton - Madison Lakes Area 1997 - current.
 
-  inUrl1  <- "https://pasta.lternet.edu/package/data/eml/knb-lter-ntl/90/33/5880c7ba184589e239aec9c55f9d313b"
-  infile1 <- tempfile()
-  download.file(inUrl1,infile1,method="curl")
-
-  LTERzoops <- read_csv(infile1)
+  # Data set title: North Temperate Lakes LTER: Phytoplankton - Madison Lakes Area 1995 - current
+  
+  revision = list_data_package_revisions(scope = 'knb-lter-ntl', identifier = "90", filter = "newest")
+  packageid = paste0('knb-lter-ntl.90.', revision)
+  res = read_data_entity_names(packageid)
+  raw = read_data_entity(packageId = packageid, entityId = res$entityId[1])
+  LTERzoops = read_csv(file = raw)
 }
 
 # Samples of native zooplankton are collected from the seven primary northern
@@ -314,10 +319,9 @@ loadLTERzooplankton.north <- function() {
   # Package ID: knb-lter-ntl.37.37 Cataloging System:https://pasta.edirepository.org.
   # Data set title: North Temperate Lakes LTER: Zooplankton - Trout Lake Area 1982 - current.
   
-  inUrl1  <- "https://pasta.lternet.edu/package/data/eml/knb-lter-ntl/37/37/c4b652eea76cd431ac5fd3562b1837ee" 
-  
-  infile1 <- tempfile()
-  download.file(inUrl1,infile1,method="curl")
-  
-  LTERzoops <- read_csv(infile1)
+  revision = list_data_package_revisions(scope = 'knb-lter-ntl', identifier = "37", filter = "newest")
+  packageid = paste0('knb-lter-ntl.37.', revision)
+  res = read_data_entity_names(packageid)
+  raw = read_data_entity(packageId = packageid, entityId = res$entityId[1])
+  LTERzoops = read_csv(file = raw)
 }
