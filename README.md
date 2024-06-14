@@ -56,6 +56,43 @@ availableVars()
 availableVars.1D()
 ```
 
+## Simple heat map for Mendota and Sparkling
+
+``` r
+library(metR)
+# # Create interpolated dataframe. Uses simple linear temperature interpolation 
+df.ME.temp = weeklyTempInterpolate(lakeAbr = 'ME', maxdepth = 24, dataset = LTERtemp)
+
+plotTimeseries.year(df.interpolated = df.ME.temp$weeklyInterpolated,   
+                    var = 'wtemp', chooseYear = 2018, binsize = 1, 
+                    legend.title = 'Temp (°C)') +
+  metR::scale_fill_divergent_discretised(high = 'red4', mid = '#e8e3a7', low = 'lightblue4', midpoint = 15) +
+  labs(title = 'Lake Mendota, water temperature 2018')
+```
+
+![](man/figures/README-unnamed-chunk-3-1.png)<!-- -->
+
+``` r
+  # theme(legend.position = 'none') # removes legend if you want 
+
+# For Sparkling also add sampled points
+df.SP.temp = weeklyTempInterpolate(lakeAbr = 'SP', maxdepth = 19, dataset = LTERtemp)
+
+plotTimeseries.year(df.interpolated = df.SP.temp$weeklyInterpolated,   
+                    var = 'wtemp', chooseYear = 2018, binsize = 1, 
+                    legend.title = 'Temp (°C)') +
+  geom_point(data = df.SP.temp$observations, aes(x = sampledate, y = depth), size = 0.2) + # add sampling points
+  # scale_fill_viridis_d(option = 'H') +
+  metR::scale_fill_divergent_discretised(high = 'red4', mid = '#e8e3a7', low = 'lightblue4', midpoint = 15) +
+  labs(title = 'Sparkling Lake, water temperature 2018')
+```
+
+![](man/figures/README-unnamed-chunk-3-2.png)<!-- -->
+
+``` r
+  # theme(legend.position = 'none') # removes legend if you want 
+```
+
 ## Interpolate weekly total phosphorus data for Lake Mendota
 
 If `LTERtemp = loadLTERtemp()` has not been run, this function downloads
@@ -80,7 +117,7 @@ df.ME = weeklyInterpolate(lakeAbr = 'ME', var = 'totpuf_sloh', dataset = LTERnut
 plotTimeseries(df.interpolated = df.ME$weeklyInterpolated, var = 'totpuf_sloh')
 ```
 
-![](man/figures/README-unnamed-chunk-4-1.png)<!-- -->
+![](man/figures/README-unnamed-chunk-5-1.png)<!-- -->
 
 ## Plot specific year with observed data
 
@@ -90,7 +127,7 @@ plotTimeseries.year(df.interpolated = df.ME$weeklyInterpolated, observations = d
                     var = 'totpuf_sloh', chooseYear = 2008)
 ```
 
-![](man/figures/README-unnamed-chunk-5-1.png)<!-- -->
+![](man/figures/README-unnamed-chunk-6-1.png)<!-- -->
 
 ``` r
 
@@ -99,7 +136,7 @@ plotTimeseries.year(df.interpolated = df.ME$weeklyInterpolated, var = 'totpuf_sl
                     binsize = 0.06, chooseYear = 2016, legend.title = 'TP (mg/L)')
 ```
 
-![](man/figures/README-unnamed-chunk-5-2.png)<!-- -->
+![](man/figures/README-unnamed-chunk-6-2.png)<!-- -->
 
 ## Customize plots
 
@@ -120,7 +157,7 @@ plotTimeseries.year(df.interpolated = df.ME$weeklyInterpolated,
   theme_minimal(base_size = 10)
 ```
 
-![](man/figures/README-unnamed-chunk-6-1.png)<!-- -->
+![](man/figures/README-unnamed-chunk-7-1.png)<!-- -->
 
 ## Calculate mass at annual or weekly timescales
 
@@ -144,7 +181,7 @@ ggplot(df.mass.annual, aes(x = year, y = mass)) +
   theme(axis.title.x = element_blank())
 ```
 
-![](man/figures/README-unnamed-chunk-8-1.png)<!-- -->
+![](man/figures/README-unnamed-chunk-9-1.png)<!-- -->
 
 ## Decompose weekly mass timeseries to analyse trends and seasonality
 
@@ -155,7 +192,7 @@ df.mass = calcMass(df.ME$weeklyInterpolated,lakeAbr = 'ME',
 decomposeTS(df.mass, lakeAbr = 'ME', var = 'totpuf_sloh')
 ```
 
-![](man/figures/README-unnamed-chunk-9-1.png)<!-- -->
+![](man/figures/README-unnamed-chunk-10-1.png)<!-- -->
 
     #> # A tibble: 4,904 × 3
     #>    date       decompose   value
@@ -170,4 +207,4 @@ decomposeTS(df.mass, lakeAbr = 'ME', var = 'totpuf_sloh')
     #>  8 1995-05-16 var.err       NA 
     #>  9 1995-05-23 var.mass   44957.
     #> 10 1995-05-23 var.trend     NA 
-    #> # … with 4,894 more rows
+    #> # ℹ 4,894 more rows
