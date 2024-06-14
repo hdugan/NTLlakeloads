@@ -89,10 +89,6 @@ plotTimeseries.year(df.interpolated = df.SP.temp$weeklyInterpolated,
 
 ![](man/figures/README-unnamed-chunk-3-2.png)<!-- -->
 
-``` r
-  # theme(legend.position = 'none') # removes legend if you want 
-```
-
 ## Interpolate weekly total phosphorus data for Lake Mendota
 
 If `LTERtemp = loadLTERtemp()` has not been run, this function downloads

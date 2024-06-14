@@ -62,7 +62,7 @@ availableVars.1D()
 
 
 ## Simple heat map for Mendota and Sparkling 
-```{r, eval = T, warning = F, message = F, results = 'hide', cache = TRUE}
+```{r, eval = T, warning = F, message = F, results = 'hide', cache = TRUE, dpi=500}
 library(metR)
 # # Create interpolated dataframe. Uses simple linear temperature interpolation 
 df.ME.temp = weeklyTempInterpolate(lakeAbr = 'ME', maxdepth = 24, dataset = LTERtemp)
@@ -84,7 +84,6 @@ plotTimeseries.year(df.interpolated = df.SP.temp$weeklyInterpolated,
   # scale_fill_viridis_d(option = 'H') +
   metR::scale_fill_divergent_discretised(high = 'red4', mid = '#e8e3a7', low = 'lightblue4', midpoint = 15) +
   labs(title = 'Sparkling Lake, water temperature 2018')
-  # theme(legend.position = 'none') # removes legend if you want 
 
 ```
 
